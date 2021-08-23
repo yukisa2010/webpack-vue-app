@@ -1,0 +1,27 @@
+{
+  "name": "webpack-vue-app",
+  "version": "1.0.0",
+  "description": "Vue app with using Webpack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yukisa2010/webpack-vue-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yukisa2010/webpack-vue-app/issues"
+  },
+  "homepage": "https://github.com/yukisa2010/webpack-vue-app#readme",
+  "devDependencies": {
+    "live-server": "^1.2.1",
+    "vue": "^2.6.14",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0"
+  },
+  "dependencies": {}
+}
