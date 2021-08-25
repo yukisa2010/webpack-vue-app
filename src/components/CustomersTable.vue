@@ -1,7 +1,7 @@
 <template>
     <div id="data-field">
-        <table :style="tableStyles">
-            <tr :styles="tableStyles">
+        <table>
+            <tr>
                 <th>ID</th>
                 <th>氏名</th>
                 <th>性別</th>
@@ -26,18 +26,21 @@ export default {
     props: ["rawCustomers", "organizations", "queryCustomers"],
     components: {
         CustomerData
-    },
-    computed: {
-        tableStyles() {
-            return {
-                border: 'solid 1px black',
-                borderCollapse: 'collapse',
-                padding: '10px'
-            }
-        }
-    }    
+    }
 }
 </script>
 
+<style>
+table, tr {
+    border: solid 1px #eee;
+    border-collapse: collapse;
+}
+th {
+    background-color:#eef1ff;
+}
+th, td {
+    padding: 10px 30px;
+}
 
+</style>
 
