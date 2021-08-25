@@ -1,5 +1,6 @@
 const path = require('path')
 const CopyPlugin = require("copy-webpack-plugin");
+const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
     entry: './src/index.js',
@@ -12,6 +13,14 @@ module.exports = {
           'vue$': 'vue/dist/vue.esm.js' // 'vue/dist/vue.common.js' webpack 1 用
         }
     },
+    module: {
+        rules: [
+          {
+            test: /\.vue$/,
+            loader: 'vue-loader'
+          }
+        ]
+    },
     plugins: [
         new CopyPlugin({
             patterns: [
@@ -21,6 +30,7 @@ module.exports = {
                     to: path.resolve(__dirname, "dist")
                 }
             ]
-        })
+        }),
+        new VueLoaderPlugin()
     ]
 };
