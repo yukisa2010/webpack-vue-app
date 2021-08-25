@@ -43,8 +43,38 @@ Vue.component('search-field', {
     }
 })
 
+Vue.component('customer-data', {
+    props: ["customer", "organizations"],
+    template: `
+    <tr>
+        <td>{{ customer.id }}</td>
+        <td>{{ customer.name }}</td>
+        <td>{{ customer.gender }}</td>
+        <td>{{ customer.birthday }}</td>
+        <td>{{ belongOrganization.name }}</td>
+    </tr>
+    `,
+    // methods: {
+    //     getOrganizationName(customer) {
+    //         console.log(customer)
+    //         console.log(this.organization)
+    //         const targetOrganization = this.organizations.find(organization => {
+    //             return organization.id === customer.id
+    //         });
+    //         return targetOrganization.name
+    //     }
+    // },
+    computed: {
+        belongOrganization() {
+            return this.organizations.find(organization => {
+                return this.customer.organizationId === organization.id
+            })
+        }
+    }
+})
+
 Vue.component('customers-table', {
-    props: ["rawCustomers", "queryCustomers", "organizations"],
+    props: ["rawCustomers", "organizations", "queryCustomers"],
     template: `
     <div id="data-field">
         <table :style="tableStyles">
@@ -56,7 +86,7 @@ Vue.component('customers-table', {
                 <th>所属会社</th>
             </tr>
             <customer-data 
-                v-for="customer in queryCustomers" 
+                v-for="customer in queryCustomers"
                 :customer="customer"
                 :organizations = "organizations"
                 :styles="tableStyles"
@@ -77,26 +107,6 @@ Vue.component('customers-table', {
     }
 })
 
-Vue.component('customer-data', {
-    props: ["customer", "organizations"],
-    template: `
-    <tr>
-        <td>{{ customer.id }}</td>
-        <td>{{ customer.name }}</td>
-        <td>{{ customer.gender }}</td>
-        <td>{{ customer.birthday }}</td>
-        <td>{{ getOrganizationName(customer) }}</td>
-    </tr>
-    `,
-    methods: {
-        getOrganizationName(customer) {
-            const targetOrganization = this.organizations.find(organization => {
-                return organization.id === customer.id
-            });
-            return targetOrganization.name
-        }
-    }
-})
 
 const app = new Vue({
     el: '#app',
@@ -117,7 +127,12 @@ const app = new Vue({
         return {
             rawCustomers: [],
             queryCustomers: [],
-            organizations: []
+            organizations: [],
+            queryParams : {
+                name: "",
+                gender: "",
+                organizationId: ""
+            }
         }
     },
     methods: {
@@ -125,7 +140,7 @@ const app = new Vue({
             const reg = new RegExp(inputParams.name)
             const gender = inputParams.gender
             const organizationId = inputParams.organizationId
-            this.rawCustomers = this.rawCustomers.filter(customer => {
+            this.queryCustomers = this.rawCustomers.filter(customer => {
                 return (
                     reg.test(customer.name)
                     && (gender === "" ? true : customer.gender === gender )
@@ -140,17 +155,12 @@ const app = new Vue({
             .then(res => {
                 this.rawCustomers =  res.data
                 this.queryCustomers = this.rawCustomers
-                return res
             })
         axios
             .get('./organizations.json')
             .then(res => {
                 this.organizations = res.data
-            })                
-    },
-    mounted() {
-        this.queryData(this.inputParams)
-
+            })
     }
 })
 
