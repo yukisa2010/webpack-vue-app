@@ -4,7 +4,7 @@
         <ul>
             <li 
                 v-for="organization in organizations" 
-                :key="organization.name"
+                :key="`view_${organization.name}`"
             >{{ organization.name }}</li>
         </ul>
     </div>

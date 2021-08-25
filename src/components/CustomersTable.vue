@@ -10,10 +10,9 @@
             </tr>
             <CustomerData
             v-for="customer in queryCustomers"
-            :key="customer"
+            :key="customer.name"
             :customer="customer"
             :organizations="organizations"
-            :styles="tableStyles"
             >
             </CustomerData>
         </table>
