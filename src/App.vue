@@ -44,17 +44,18 @@ export default {
         }
     },
     beforeCreate() {
-        axios
-            .get('./customers.json')
-            .then(res => {
-                this.rawCustomers =  res.data
-                this.queryCustomers = this.rawCustomers
-            })
-        axios
-            .get('./organizations.json')
-            .then(res => {
-                this.organizations = res.data
-            })
+    axios
+        .get('./customers.json')
+        .then(res => {
+            this.rawCustomers =  res.data
+            this.queryCustomers = this.rawCustomers
+        })
+    axios
+        .get('./organizations.json')
+        .then(res => {
+            this.organizations = res.data
+        })
     }
+
 }
 </script>
