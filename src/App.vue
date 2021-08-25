@@ -22,12 +22,7 @@ export default {
         return {
             rawCustomers: [],
             queryCustomers: [],
-            organizations: [],
-            queryParams : {
-                name: "",
-                gender: "",
-                organizationId: ""
-            }
+            organizations: []
         }
     },
     components: {
