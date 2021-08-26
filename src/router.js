@@ -6,6 +6,7 @@ import Customers from './components/Customers.vue'
 import CustomerCreate from './components/CustomerCreate.vue'
 import Organizations from './components/Organizations.vue'
 import Create from './components/Create.vue'
+import OrganizationEdit from './components/OrganizationEdit.vue'
 
 
 Vue.use(VueRouter)
@@ -37,6 +38,17 @@ const routes = [
         components:  {
             default: Create,
             header: Header
+        }
+    },
+    {
+        path: '/organizations/:id',
+        components: {
+            default: OrganizationEdit,
+            header: Header
+        },
+        props: {
+            default: true,
+            header: false
         }
     }
 ]

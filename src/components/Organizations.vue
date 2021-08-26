@@ -6,7 +6,11 @@
             <li 
                 v-for="organization in organizations" 
                 :key="`view_${organization.name}`"
-            >{{ organization.name }}</li>
+            >
+                {{ organization.name }}
+                <router-link :to="`/organizations/${organization.id}`" >編集</router-link>    
+            </li>
+            
         </ul>
         <router-view></router-view>
     </div>

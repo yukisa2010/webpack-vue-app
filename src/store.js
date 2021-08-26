@@ -79,6 +79,13 @@ export default new Vuex.Store({
             const organizationsData = axios.get('./organizations.json')
             commit('setOrganizations', organizationsData)
         }
+    },
+    getters: {
+        findOrganization(state, id) {
+            return state.organizations.find(organization => {
+                return organization.id === id
+            })
+        }
     }
 })
 
