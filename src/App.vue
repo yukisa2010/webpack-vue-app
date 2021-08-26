@@ -1,14 +1,7 @@
 <template>
     <div>
-        <SearchField 
-            :organizations="organizations" 
-            @query="queryData"
-        ></SearchField>
-        <CustomersTable
-            :rawCustomers = rawCustomers
-            :queryCustomers = queryCustomers
-            :organizations = organizations
-        ></CustomersTable>
+        <SearchField></SearchField>
+        <CustomersTable></CustomersTable>
     </div>
 </template>
 
@@ -16,19 +9,14 @@
 import SearchField from './components/SearchField.vue'
 import CustomersTable from './components/CustomersTable.vue'
 import axios from 'axios'
+import { mapState } from 'vuex'
 
 export default {
-    data() {
-        return {
-            rawCustomers: [],
-            queryCustomers: [],
-            organizations: []
-        }
-    },
     components: {
         SearchField,
         CustomersTable
     },
+    computed: mapState(["rawCustomers", "queryCustomers", "organizations"]),
     methods: {
         queryData(inputParams) {
             const reg = new RegExp(inputParams.name)
@@ -44,17 +32,8 @@ export default {
         }
     },
     beforeCreate() {
-    axios
-        .get('./customers.json')
-        .then(res => {
-            this.rawCustomers =  res.data
-            this.queryCustomers = this.rawCustomers
-        })
-    axios
-        .get('./organizations.json')
-        .then(res => {
-            this.organizations = res.data
-        })
+            this.$store.dispatch('getCustomers')
+            this.$store.dispatch('getOrganizations')
     }
 
 }

@@ -8,9 +8,11 @@
     </tr>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
-    props: ["customer", "organizations"],
+    props: ["customer"],
     computed: {
+        ...mapState(["organizations"]),
         belongOrganization() {
             const targetOrganization =  this.organizations.find(organization => {
                 return this.customer.organizationId === organization.id

@@ -12,7 +12,6 @@
             v-for="customer in queryCustomers"
             :key="customer.name"
             :customer="customer"
-            :organizations="organizations"
             >
             </CustomerData>
         </table>
@@ -20,9 +19,10 @@
 </template>
 <script>
 import CustomerData from './CustomerData.vue'
+import { mapState } from 'vuex'
 
 export default {
-    props: ["rawCustomers", "organizations", "queryCustomers"],
+    computed: mapState(["rawCustomers","queryCustomers"]),
     components: {
         CustomerData
     }

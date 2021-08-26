@@ -8,7 +8,7 @@
         <input type="radio" name="gender" v-model="inputParams.gender" value="女"><label for="gender">女性</label>
         <span class="bold">組織</span>
         <select id="test" v-model="inputParams.organizationId">
-            <option selected>選択なし</option>
+            <option value="" selected>選択なし</option>
             <option 
                 v-for="organization in organizations" 
                 :value="organization.id"
@@ -23,20 +23,13 @@
     </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+
 export default {
-    props: ["organizations"],
-    data() {
-        return {
-            inputParams: {
-                name: "",
-                gender: "",
-                organizationId: ""
-            }
-        }
-    },
+    computed: mapState(["inputParams", "organizations"]),
     methods: {
         queryData() {
-            this.$emit('query', this.inputParams)
+            this.$store.commit('queryData')
         }
     }    
 }
