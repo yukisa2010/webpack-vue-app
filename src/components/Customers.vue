@@ -1,5 +1,6 @@
 <template>
     <div>
+        <router-link to="/customers/create">顧客を追加</router-link>
         <SearchField></SearchField>
         <CustomersTable></CustomersTable>
     </div>
