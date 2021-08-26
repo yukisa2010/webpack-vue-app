@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App.vue'
+import Header from './components/Header.vue'
+import Customers from './components/Customers.vue'
 import Organizations from './components/Organizations.vue'
 import Create from './components/Create.vue'
 import VueRouter from 'vue-router'
@@ -19,6 +21,7 @@ const store = new Vuex.Store({
             gender: "",
             organizationId: ""
         },
+        newOrganizationName: "",
         count: 0
     },
     mutations: {
@@ -45,6 +48,17 @@ const store = new Vuex.Store({
                     && (organizationId === "" ? true: customer.organizationId === organizationId)
                 )
             })
+        },
+        addOrganization(state) {
+            const organization = {}
+            organization.id = state.organizations.length + 1
+            organization.name = state.newOrganizationName
+
+            state.organizations.push(organization)
+            state.newOrganizationName = ''
+        },
+        changeNewOrganizationName(state, value) {
+            state.newOrganizationName = value
         }
     },
     actions : {
@@ -54,7 +68,6 @@ const store = new Vuex.Store({
         },
         getOrganizations({ commit }) {
             const organizationsData = axios.get('./organizations.json')
-            console.log(organizationsData)
             commit('setOrganizations', organizationsData)
         }
     }
@@ -62,10 +75,27 @@ const store = new Vuex.Store({
 
 
 const routes = [
-    { path: '/', component: App },
-    { path: '/organizations', component: Organizations },
-    { path: '/organizations/create', component: Create }
-    // { path: '/organization', component: App }
+    { 
+        path: '/', 
+        components: {
+            default: Customers,
+            header: Header
+        }
+    },
+    {
+        path: '/organizations', 
+        components: {
+            default: Organizations,
+            header: Header
+        }
+    },
+    {
+        path: '/organizations/create',
+        components:  {
+            default: Create,
+            header: Header
+        }
+    }
 ]
 
 const router = new VueRouter({
@@ -75,15 +105,14 @@ const router = new VueRouter({
 const app = new Vue({
     el: '#app',
     template: `
-    <div>
-        <p>
-            <router-link to="/">顧客</router-link>
-            <router-link to="/organizations">組織</router-link>
-        </p>
-        <router-view></router-view>
-    </div>
+        <App></App>
     `,
+    components: { App },
     router,
-    store
+    store,
+    beforeCreate() {
+        this.$store.dispatch('getCustomers')
+        this.$store.dispatch('getOrganizations')
+    }
 })
 

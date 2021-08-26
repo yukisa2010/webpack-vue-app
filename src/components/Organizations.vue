@@ -13,20 +13,9 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapState } from 'vuex'
 
 export default {
-    data() {
-        return {
-            organizations: []
-        }
-    },
-    beforeCreate() {
-        axios
-        .get('./organizations.json')
-        .then(res => {
-            this.organizations = res.data
-        })
-    }
+    computed: mapState(["organizations"])
 }
 </script>
