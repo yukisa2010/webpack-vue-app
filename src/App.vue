@@ -5,3 +5,11 @@
     </div>
 </template>
 
+<script>
+export default {
+    beforeCreate() {
+        this.$store.dispatch('getCustomers')
+        this.$store.dispatch('getOrganizations')
+    }
+}
+</script>

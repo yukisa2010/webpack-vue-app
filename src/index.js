@@ -14,10 +14,6 @@ const app = new Vue({
     `,
     components: { App },
     router,
-    store,
-    beforeCreate() {
-        this.$store.dispatch('getCustomers')
-        this.$store.dispatch('getOrganizations')
-    }
+    store
 })
 
