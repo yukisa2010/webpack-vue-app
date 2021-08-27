@@ -46,6 +46,7 @@ export default {
     methods: {
         addCustomer() {
             this.$store.commit('addCustomer')
+            this.$router.push('/')
         }
     }
 }

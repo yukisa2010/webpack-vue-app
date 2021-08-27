@@ -31,10 +31,12 @@ export default new Vuex.Store({
             })
         },
         setOrganizations(state, organizationsData) {
-            console.log()
             organizationsData.then(res => {
                 state.organizations = res.data
             })
+        },
+        setNewOrganizationName(state, value) {
+            state.newOrganizationName = value         
         },
         queryData(state) {
             const reg = new RegExp(state.inputParams.name)
@@ -66,8 +68,23 @@ export default new Vuex.Store({
             if(state.createParams.name === '') { return }
             state.createParams.birthday = state.createParams.birthday.replace('-', '/')
             state.rawCustomers.push(state.createParams)
-            // state.queryCustomers.push(state.createParams)
-            // console.log(state.queryCustomers)
+            const defaultParams = {
+                name: "",
+                gender: "",
+                birthday: "",
+                organizationId: 0   
+            }
+            state.createParams = defaultParams
+        },
+        updateOrganization(state, id) {
+            console.log(state.newOrganizationName)
+            state.organizations = state.organizations.map(organization => {
+                if(organization.id === Number(id)) {
+                    organization.name = state.newOrganizationName
+                }
+                return organization
+            })
+            state.newOrganizationName = ''
         }
     },
     actions : {
