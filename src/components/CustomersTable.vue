@@ -9,9 +9,9 @@
                 <th>所属会社</th>
             </tr>
             <CustomerData
-            v-for="customer in queryCustomers"
-            :key="customer.name"
-            :customer="customer"
+                v-for="customer in queryCustomers"
+                :key="customer.name"
+                :customer="customer"
             >
             </CustomerData>
         </table>

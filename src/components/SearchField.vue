@@ -1,13 +1,13 @@
 <template>
     <div id="search-field">
         <span class="bold">氏名</span>
-        <input type="text" name="name" v-model="inputParams.name">
+        <input type="text" name="name" v-model="queryCustomerParams.name">
         <span class="bold">性別</span>
-        <input type="radio" name="gender" v-model="inputParams.gender" value=""><label for="gender">指定なし</label>
-        <input type="radio" name="gender" v-model="inputParams.gender" value="男"><label for="gender">男性</label>
-        <input type="radio" name="gender" v-model="inputParams.gender" value="女"><label for="gender">女性</label>
+        <input type="radio" name="gender" v-model="queryCustomerParams.gender" value=""><label for="gender">指定なし</label>
+        <input type="radio" name="gender" v-model="queryCustomerParams.gender" value="男"><label for="gender">男性</label>
+        <input type="radio" name="gender" v-model="queryCustomerParams.gender" value="女"><label for="gender">女性</label>
         <span class="bold">組織</span>
-        <select id="test" v-model="inputParams.organizationId">
+        <select id="test" v-model="queryCustomerParams.organizationId">
             <option value="" selected>選択なし</option>
             <option 
                 v-for="organization in organizations" 
@@ -18,7 +18,7 @@
             </option>
         </select>
         <p>
-            <button @click="queryData">検索</button>
+            <button @click="queryCustomers">検索</button>
         </p>
     </div>
 </template>
@@ -26,10 +26,10 @@
 import { mapState } from 'vuex'
 
 export default {
-    computed: mapState(["inputParams", "organizations"]),
+    computed: mapState(["queryCustomerParams", "organizations"]),
     methods: {
-        queryData() {
-            this.$store.commit('queryData')
+        queryCustomers() {
+            this.$store.commit('queryCustomers')
         }
     }    
 }

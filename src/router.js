@@ -5,7 +5,7 @@ import Header from './components/Header.vue'
 import Customers from './components/Customers.vue'
 import CustomerCreate from './components/CustomerCreate.vue'
 import Organizations from './components/Organizations.vue'
-import Create from './components/Create.vue'
+import OrganizationCreate from './components/OrganizationCreate.vue'
 import OrganizationEdit from './components/OrganizationEdit.vue'
 
 
@@ -36,7 +36,7 @@ const routes = [
     {
         path: '/organizations/create',
         components:  {
-            default: Create,
+            default: OrganizationCreate,
             header: Header
         }
     },
@@ -50,6 +50,10 @@ const routes = [
             default: true,
             header: false
         }
+    },
+    {
+        path: '*',
+        redirect: '/'
     }
 ]
 

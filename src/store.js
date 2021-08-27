@@ -9,39 +9,31 @@ export default new Vuex.Store({
         rawCustomers: [],
         queryCustomers: [],
         organizations: [],
-        inputParams: {
+        queryCustomerParams: {
             name: "",
             gender: "",
             organizationId: ""
         },
-        createParams: {
+        newCustomerParams: {
             name: "",
             gender: "",
             birthday: "",
             organizationId: 0
         },
         newOrganizationName: "",
-        count: 0
+        editOrganizationName: ""
     },
     mutations: {
-        setCustomers(state, customersData) {
+        initCustomers(state, customersData) {
             customersData.then(res => {
                 state.rawCustomers =  res.data
                 state.queryCustomers = state.rawCustomers
             })
         },
-        setOrganizations(state, organizationsData) {
-            organizationsData.then(res => {
-                state.organizations = res.data
-            })
-        },
-        setNewOrganizationName(state, value) {
-            state.newOrganizationName = value         
-        },
-        queryData(state) {
-            const reg = new RegExp(state.inputParams.name)
-            const gender = state.inputParams.gender
-            const organizationId = state.inputParams.organizationId
+        queryCustomers(state) {
+            const reg = new RegExp(state.queryCustomerParams.name)
+            const gender = state.queryCustomerParams.gender
+            const organizationId = state.queryCustomerParams.organizationId
             state.queryCustomers = state.rawCustomers.filter(customer => {
                 return (
                     reg.test(customer.name)
@@ -50,34 +42,42 @@ export default new Vuex.Store({
                 )
             })
         },
-        addOrganization(state) {
-            const organization = {}
-            organization.id = state.organizations.length + 1
-            organization.name = state.newOrganizationName
 
-            state.organizations.push(organization)
-            state.newOrganizationName = ''
-        },
-        changeNewOrganizationName(state, value) {
-            state.newOrganizationName = value
-        },
-        setNewCustomer(state, createParams) {
-            state.createParams = createParams
+        changeNewCustomerParams(state, newCustomerParams) {
+            state.newCustomerParams = newCustomerParams
         },
         addCustomer(state) {
-            if(state.createParams.name === '') { return }
-            state.createParams.birthday = state.createParams.birthday.replace('-', '/')
-            state.rawCustomers.push(state.createParams)
+            if(state.newCustomerParams.name === '') { return }
+            const newCustomer = state.newCustomerParams
+            newCustomer.birthday = newCustomer.birthday.replaceAll('-', '/')
+            newCustomer.id = state.rawCustomers.length + 1
+            state.rawCustomers.push(newCustomer)
             const defaultParams = {
                 name: "",
                 gender: "",
                 birthday: "",
                 organizationId: 0   
             }
-            state.createParams = defaultParams
+            state.newCustomerParams = defaultParams
+        },
+
+        initOrganizations(state, organizationsData) {
+            organizationsData.then(res => {
+                state.organizations = res.data
+            })
+        },
+        addNewOrganization(state) {
+            const newOrganization = {}
+            newOrganization.id = state.organizations.length + 1
+            newOrganization.name = state.newOrganizationName
+
+            state.organizations.push(newOrganization)
+            state.newOrganizationName = ''
+        },
+        changeNewOrganizationName(state, value) {
+            state.newOrganizationName = value
         },
         updateOrganization(state, id) {
-            console.log(state.newOrganizationName)
             state.organizations = state.organizations.map(organization => {
                 if(organization.id === Number(id)) {
                     organization.name = state.newOrganizationName
@@ -90,18 +90,21 @@ export default new Vuex.Store({
     actions : {
         getCustomers({ commit }) {
             const customersData = axios.get('./customers.json')
-            commit('setCustomers', customersData)
+            commit('initCustomers', customersData)
         },
         getOrganizations({ commit }) {
             const organizationsData = axios.get('./organizations.json')
-            commit('setOrganizations', organizationsData)
+            commit('initOrganizations', organizationsData)
         }
     },
     getters: {
-        findOrganization(state, id) {
-            return state.organizations.find(organization => {
-                return organization.id === id
+        getOrganizationName: (state) => (id) => {
+            const organization = state.organizations.find(organization =>{
+                return organization.id === Number(id)
             })
+            return (
+                organization === undefined ? '' : organization.name
+            )
         }
     }
 })

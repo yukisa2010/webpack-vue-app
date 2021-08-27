@@ -2,20 +2,24 @@
     <div>
         <p>id: {{ id }}</p>
         <label>名前：</label><input type="text" v-model="newOrganizationName"/>
-        <button @click="updateOrganization">変更</button>
+        <button @click="updateOrganization">更新</button>
     </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
     props: ["id"],
     computed: {
+        ...mapState(["organizations"]),
+        ...mapGetters(["getOrganizationName"]),
         newOrganizationName: {
             get() {
                 return this.$store.state.newOrganizationName
             },
             set(value) {
-                this.$store.commit('setNewOrganizationName', value)
+                this.$store.commit('changeNewOrganizationName', value)
             }
         }
     },
@@ -24,15 +28,12 @@ export default {
             this.$store.commit("updateOrganization", this.id)
             this.$router.push('/organizations')
         },
-        getOrganization() {
-            const organization = this.$store.state.organizations.find(organization => {
-                return organization.id === Number(this.id)
-            })
-            this.$store.commit('setNewOrganizationName', organization.name)
+        getCurrentOrganization() {
+            this.$store.commit('changeNewOrganizationName', this.getOrganizationName(this.id))
         },
     },
     created() {
-        this.getOrganization()
+        this.getCurrentOrganization()
     }
 }
 </script>
