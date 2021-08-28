@@ -38,11 +38,16 @@ module.exports = {
     plugins: [
         new CopyPlugin({
             patterns: [
-                {
-                    context: "src",
-                    from: "**/*.json",
-                    to: path.resolve(__dirname, "dist")
-                }
+              {
+                context: "src",
+                from: "**/*.json",
+                to: path.resolve(__dirname, "dist")
+              },
+              {
+                context: "src",
+                from: "**/*.html",
+                to: path.resolve(__dirname, "dist")
+              }
             ]
         }),
         new VueLoaderPlugin()
