@@ -6,17 +6,16 @@
     </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
     props: ["id"],
     computed: {
         ...mapState(["organizations"]),
-        ...mapGetters(["getOrganizationName"]),
+        ...mapGetters(["getOrganizationName", "getNewOrganizationName"]),
         newOrganizationName: {
             get() {
-                return this.$store.state.newOrganizationName
+                return this.$store.getters.getNewOrganizationName
             },
             set(value) {
                 this.$store.commit('changeNewOrganizationName', value)

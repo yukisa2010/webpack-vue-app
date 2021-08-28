@@ -8,14 +8,15 @@
     </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
     computed: {
         ...mapState(["newOrganizationName"]),
+        ...mapGetters(["getNewOrganizationName"]),
         newOrganizationName: {
             get() {
-                return this.$store.state.newOrganizationName
+                return this.$store.getters.getNewOrganizationName
             },
             set(value) {
                 this.$store.commit('changeNewOrganizationName', value)

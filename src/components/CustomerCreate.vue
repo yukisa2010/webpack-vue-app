@@ -29,13 +29,14 @@
     </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
     computed: {
         ...mapState(["organizations"]),
+        ...mapGetters(["getNewCustomerParams"]),
         newCustomerParams: {
             get() {
-                return this.$store.state.newCustomerParams
+                return this.$store.getters.getNewCustomerParams
             },
             set(value) {
                 this.$store.commit('changeNewCustomerParams', value)

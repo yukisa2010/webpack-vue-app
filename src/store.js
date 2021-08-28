@@ -105,7 +105,9 @@ export default new Vuex.Store({
             return (
                 organization === undefined ? '' : organization.name
             )
-        }
+        },
+        getNewCustomerParams: state => state.newCustomerParams,
+        getNewOrganizationName: state => state.newOrganizationName
     }
 })
 
