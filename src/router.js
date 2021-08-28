@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Header from './components/Header.vue'
 import Customers from './components/Customers.vue'
 import CustomerCreate from './components/CustomerCreate.vue'
 import Organizations from './components/Organizations.vue'
@@ -14,42 +13,24 @@ Vue.use(VueRouter)
 const routes = [
     { 
         path: '/', 
-        components: {
-            default: Customers,
-            header: Header
-        }
+        component: Customers
     },
     {
         path: '/customers/create',
-        components: {
-            default: CustomerCreate,
-            header: Header
-        }
+        component: CustomerCreate
     },
     {
         path: '/organizations', 
-        components: {
-            default: Organizations,
-            header: Header
-        }
+        component: Organizations
     },
     {
         path: '/organizations/create',
-        components:  {
-            default: OrganizationCreate,
-            header: Header
-        }
+        component: OrganizationCreate
     },
     {
         path: '/organizations/:id',
-        components: {
-            default: OrganizationEdit,
-            header: Header
-        },
-        props: {
-            default: true,
-            header: false
-        }
+        component: OrganizationEdit,
+        props: true
     },
     {
         path: '*',
