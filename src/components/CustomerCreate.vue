@@ -32,7 +32,9 @@
 import { mapState, mapGetters } from 'vuex'
 export default {
     computed: {
-        ...mapState(["organizations"]),
+        ...mapState({
+            organizations: (state) => state.organizations.organizations
+        }),
         ...mapGetters(["getNewCustomerParams"]),
         newCustomerParams: {
             get() {

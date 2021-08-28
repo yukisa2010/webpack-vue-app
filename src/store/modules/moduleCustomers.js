@@ -1,14 +1,10 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
 import axios from 'axios'
 
-Vue.use(Vuex)
 
-export default new Vuex.Store({
-    state: {
+export default {
+    state:() => ({
         rawCustomers: [],
         queryCustomers: [],
-        organizations: [],
         queryCustomerParams: {
             name: "",
             gender: "",
@@ -20,9 +16,8 @@ export default new Vuex.Store({
             birthday: "",
             organizationId: 0
         },
-        newOrganizationName: "",
-        editOrganizationName: ""
-    },
+
+    }),
     mutations: {
         initCustomers(state, customersData) {
             customersData.then(res => {
@@ -42,7 +37,6 @@ export default new Vuex.Store({
                 )
             })
         },
-
         changeNewCustomerParams(state, newCustomerParams) {
             state.newCustomerParams = newCustomerParams
         },
@@ -59,32 +53,6 @@ export default new Vuex.Store({
                 organizationId: 0   
             }
             state.newCustomerParams = defaultParams
-        },
-
-        initOrganizations(state, organizationsData) {
-            organizationsData.then(res => {
-                state.organizations = res.data
-            })
-        },
-        addNewOrganization(state) {
-            const newOrganization = {}
-            newOrganization.id = state.organizations.length + 1
-            newOrganization.name = state.newOrganizationName
-
-            state.organizations.push(newOrganization)
-            state.newOrganizationName = ''
-        },
-        changeNewOrganizationName(state, value) {
-            state.newOrganizationName = value
-        },
-        updateOrganization(state, id) {
-            state.organizations = state.organizations.map(organization => {
-                if(organization.id === Number(id)) {
-                    organization.name = state.newOrganizationName
-                }
-                return organization
-            })
-            state.newOrganizationName = ''
         }
     },
     actions : {
@@ -92,20 +60,8 @@ export default new Vuex.Store({
             const customersData = axios.get('./customers.json')
             commit('initCustomers', customersData)
         },
-        getOrganizations({ commit }) {
-            const organizationsData = axios.get('./organizations.json')
-            commit('initOrganizations', organizationsData)
-        }
     },
     getters: {
-        getOrganizationName: (state) => (id) => {
-            const organization = state.organizations.find(organization =>{
-                return organization.id === Number(id)
-            })
-            return !organization ? '' : organization.name
-        },
-        getNewCustomerParams: state => state.newCustomerParams,
-        getNewOrganizationName: state => state.newOrganizationName
+        getNewCustomerParams: state => state.newCustomerParams
     }
-})
-
+}

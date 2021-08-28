@@ -22,7 +22,10 @@ import CustomerData from './CustomerData.vue'
 import { mapState } from 'vuex'
 
 export default {
-    computed: mapState(["rawCustomers","queryCustomers"]),
+    computed: mapState({
+        rawCustomers: (state) => state.customers.rawCustomers,
+        queryCustomers: (state) => state.customers.queryCustomers
+    }),
     components: {
         CustomerData
     }

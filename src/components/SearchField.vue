@@ -26,7 +26,10 @@
 import { mapState } from 'vuex'
 
 export default {
-    computed: mapState(["queryCustomerParams", "organizations"]),
+    computed: mapState({
+        queryCustomerParams: (state) => state.customers.queryCustomerParams,
+        organizations: (state) => state.organizations.organizations
+    }),
     methods: {
         queryCustomers() {
             this.$store.commit('queryCustomers')

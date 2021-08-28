@@ -20,6 +20,8 @@
 import { mapState } from 'vuex'
 
 export default {
-    computed: mapState(["organizations"])
+    computed: mapState({
+        organizations: state => state.organizations.organizations
+    })
 }
 </script>
