@@ -102,9 +102,7 @@ export default new Vuex.Store({
             const organization = state.organizations.find(organization =>{
                 return organization.id === Number(id)
             })
-            return (
-                organization === undefined ? '' : organization.name
-            )
+            return !organization ? '' : organization.name
         },
         getNewCustomerParams: state => state.newCustomerParams,
         getNewOrganizationName: state => state.newOrganizationName
