@@ -2,34 +2,35 @@ import axios from 'axios'
 
 
 export default {
+    namespaced: true,
     state:() => ({
-        rawCustomers: [],
-        queryCustomers: [],
-        queryCustomerParams: {
+        customers: [],
+        searchedCustomers: [],
+        searchParams: {
             name: "",
             gender: "",
             organizationId: ""
         },
-        newCustomerParams: {
+        insertParams: {
             name: "",
             gender: "",
             birthday: "",
             organizationId: 0
-        },
-
+        }
     }),
     mutations: {
-        initCustomers(state, customersData) {
-            customersData.then(res => {
-                state.rawCustomers =  res.data
-                state.queryCustomers = state.rawCustomers
-            })
+        init(state, customersData) {
+            state.customers = customersData.data
+            state.searchedCustomers = customersData.data
         },
-        queryCustomers(state) {
-            const reg = new RegExp(state.queryCustomerParams.name)
-            const gender = state.queryCustomerParams.gender
-            const organizationId = state.queryCustomerParams.organizationId
-            state.queryCustomers = state.rawCustomers.filter(customer => {
+        changeInsertParams(state, value) {
+            state.insertParams = value
+        },
+        search(state) {
+            const reg = new RegExp(state.searchParams.name)
+            const gender = state.searchParams.gender
+            const organizationId = state.searchParams.organizationId
+            state.searchedCustomers = state.customers.filter(customer => {
                 return (
                     reg.test(customer.name)
                     && (gender === "" ? true : customer.gender === gender )
@@ -37,31 +38,25 @@ export default {
                 )
             })
         },
-        changeNewCustomerParams(state, newCustomerParams) {
-            state.newCustomerParams = newCustomerParams
-        },
-        addCustomer(state) {
-            if(state.newCustomerParams.name === '') { return }
-            const newCustomer = state.newCustomerParams
+        insert(state) {
+            if(state.insertParams.name === '') { return }
+            const newCustomer = state.insertParams
+            newCustomer.id = state.customers.length + 1
             newCustomer.birthday = newCustomer.birthday.replaceAll('-', '/')
-            newCustomer.id = state.rawCustomers.length + 1
-            state.rawCustomers.push(newCustomer)
+            state.customers.push(newCustomer)
             const defaultParams = {
                 name: "",
                 gender: "",
                 birthday: "",
                 organizationId: 0   
             }
-            state.newCustomerParams = defaultParams
+            state.insertParams = defaultParams
         }
     },
     actions : {
-        getCustomers({ commit }) {
-            const customersData = axios.get('./customers.json')
-            commit('initCustomers', customersData)
-        },
-    },
-    getters: {
-        getNewCustomerParams: state => state.newCustomerParams
+        async fetchCustomers({ commit }) {
+            const customersData = await axios.get('./customers.json')
+            commit('init', customersData)
+        }
     }
 }

@@ -4,18 +4,16 @@
         <td>{{ customer.name }}</td>
         <td>{{ customer.gender }}</td>
         <td>{{ customer.birthday }}</td>
-        <td>{{ getOrganizationName(customer.organizationId) }}</td>
+        <td>{{ organizationName(customer.organizationId) }}</td>
     </tr>
 </template>
 <script>
-import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
 
 export default {
     props: ["customer"],
     computed: {
-        ...mapState(["organizations"]),
-        ...mapGetters(["getOrganizationName"])
+        ...mapGetters('organizations',["organizationName"])
     }    
 }
 </script>

@@ -7,14 +7,19 @@
 
 <script>
 import Header from './components/Header.vue'
+import { mapActions } from 'vuex'
 
 export default {
     components: {
         Header
     },
-    beforeCreate() {
-        this.$store.dispatch('getCustomers')
-        this.$store.dispatch('getOrganizations')
+    methods: {
+        ...mapActions('customers',["fetchCustomers"]),
+        ...mapActions('organizations', ["fetchOrganizations"]),
+    },
+    mounted() {
+        this.fetchCustomers()
+        this.fetchOrganizations()
     }
 }
 </script>

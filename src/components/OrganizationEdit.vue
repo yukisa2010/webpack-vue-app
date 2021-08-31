@@ -1,38 +1,35 @@
 <template>
     <div>
         <p>id: {{ id }}</p>
-        <label>名前：</label><input type="text" v-model="newOrganizationName"/>
+        <label>名前：</label><input type="text" v-model="organizationParams.name"/>
         <button @click="updateOrganization">更新</button>
     </div>
 </template>
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
     props: ["id"],
-    computed: {
-        ...mapState(["organizations"]),
-        ...mapGetters(["getOrganizationName", "getNewOrganizationName"]),
-        newOrganizationName: {
-            get() {
-                return this.$store.getters.getNewOrganizationName
-            },
-            set(value) {
-                this.$store.commit('changeNewOrganizationName', value)
-            }
+    data: () => ({
+        organizationParams: {
+            id: "",
+            name: ""
+        }
+    }),
+    computed: mapGetters('organizations', ["organizationName"]),
+    methods: {
+        ...mapMutations('organizations', ['update']),
+        updateOrganization() {
+            this.update(this.organizationParams)
+            this.$router.push('/organizations')
         }
     },
-    methods: {
-        updateOrganization() {
-            this.$store.commit("updateOrganization", this.id)
-            this.$router.push('/organizations')
-        },
-        getCurrentOrganization() {
-            this.$store.commit('changeNewOrganizationName', this.getOrganizationName(this.id))
-        },
-    },
-    created() {
-        this.getCurrentOrganization()
+    mounted() {
+        const organizationParams = {}
+        organizationParams.id = this.id
+        organizationParams.name = this.organizationName(this.id)
+
+        this.organizationParams = organizationParams
     }
 }
 </script>

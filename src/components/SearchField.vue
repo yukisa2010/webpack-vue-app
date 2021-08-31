@@ -1,40 +1,36 @@
 <template>
     <div id="search-field">
         <span class="bold">氏名</span>
-        <input type="text" name="name" v-model="queryCustomerParams.name">
+        <input type="text" name="name" v-model="searchParams.name">
         <span class="bold">性別</span>
-        <input type="radio" name="gender" v-model="queryCustomerParams.gender" value=""><label for="gender">指定なし</label>
-        <input type="radio" name="gender" v-model="queryCustomerParams.gender" value="男"><label for="gender">男性</label>
-        <input type="radio" name="gender" v-model="queryCustomerParams.gender" value="女"><label for="gender">女性</label>
+        <input type="radio" name="gender" v-model="searchParams.gender" value=""><label for="gender">指定なし</label>
+        <input type="radio" name="gender" v-model="searchParams.gender" value="男"><label for="gender">男性</label>
+        <input type="radio" name="gender" v-model="searchParams.gender" value="女"><label for="gender">女性</label>
         <span class="bold">組織</span>
-        <select id="test" v-model="queryCustomerParams.organizationId">
+        <select id="test" v-model="searchParams.organizationId">
             <option value="" selected>選択なし</option>
             <option 
                 v-for="organization in organizations" 
                 :value="organization.id"
-                :key="organization.id"
+                :key="organization.name"
             >
                 {{ organization.name }}
             </option>
         </select>
         <p>
-            <button @click="queryCustomers">検索</button>
+            <button @click="search">検索</button>
         </p>
     </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
-    computed: mapState({
-        queryCustomerParams: (state) => state.customers.queryCustomerParams,
-        organizations: (state) => state.organizations.organizations
-    }),
-    methods: {
-        queryCustomers() {
-            this.$store.commit('queryCustomers')
-        }
-    }    
+    computed: {
+        ...mapState('customers',["searchParams"]),
+        ...mapState('organizations', ["organizations"])
+    },
+    methods: mapMutations('customers', ["search"])
 }
 </script>
 <style scoped>

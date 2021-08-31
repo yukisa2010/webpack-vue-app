@@ -1,51 +1,42 @@
 import axios from 'axios'
 
 export default {
+    namespaced: true,
     state: () => ({
-        organizations: [],
-        newOrganizationName: "",
-        editOrganizationName: ""
+        organizations: []
     }),
     mutations: {
-        initOrganizations(state, organizationsData) {
-            organizationsData.then(res => {
-                state.organizations = res.data
-            })
+        init(state, organizationsData) {
+            state.organizations = organizationsData.data
         },
-        addNewOrganization(state) {
+        insert(state, newOrganizationName) {
             const newOrganization = {}
             newOrganization.id = state.organizations.length + 1
-            newOrganization.name = state.newOrganizationName
+            newOrganization.name = newOrganizationName
 
             state.organizations.push(newOrganization)
-            state.newOrganizationName = ''
         },
-        changeNewOrganizationName(state, value) {
-            state.newOrganizationName = value
-        },
-        updateOrganization(state, id) {
+        update(state, organizationParams) {
             state.organizations = state.organizations.map(organization => {
-                if(organization.id === Number(id)) {
-                    organization.name = state.newOrganizationName
+                if(organization.id === Number(organizationParams.id)) {
+                    organization.name = organizationParams.name
                 }
                 return organization
             })
-            state.newOrganizationName = ''
         }
     },
     actions : {
-        getOrganizations({ commit }) {
-            const organizationsData = axios.get('./organizations.json')
-            commit('initOrganizations', organizationsData)
+        async fetchOrganizations({ commit }) {
+            const organizationsData = await axios.get('./organizations.json')
+            commit('init', organizationsData)
         }
     },
     getters: {
-        getOrganizationName: (state) => (id) => {
+        organizationName: (state) => (id) => {
             const organization = state.organizations.find(organization =>{
                 return organization.id === Number(id)
             })
             return !organization ? '' : organization.name
-        },
-        getNewOrganizationName: state => state.newOrganizationName
+        }
     }
 }

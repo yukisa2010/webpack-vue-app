@@ -3,34 +3,23 @@
         <h1>組織の追加</h1>
         <label for="organization">組織名：</label>
         <input type="text" name="organization" v-model="newOrganizationName"/>
-        <button @click="addNewOrganization">追加</button>
+        <button @click="insertOrganization">追加</button>
         <router-view></router-view>
     </div>
 </template>
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {
-    computed: {
-        ...mapState(["newOrganizationName"]),
-        ...mapGetters(["getNewOrganizationName"]),
-        newOrganizationName: {
-            get() {
-                return this.$store.getters.getNewOrganizationName
-            },
-            set(value) {
-                this.$store.commit('changeNewOrganizationName', value)
-            }
-        }
-    },
+    data: () => ({
+        newOrganizationName: ""
+    }),
     methods: {
-        addNewOrganization() {
-            this.$store.commit('addNewOrganization')
+        ...mapMutations('organizations', ["insert"]),
+        insertOrganization() {
+            this.insert(this.newOrganizationName)
             this.$router.push('/organizations')
         }
-    },
-    created() {
-        this.$store.commit('changeNewOrganizationName', '')
     }
 }
 </script>
