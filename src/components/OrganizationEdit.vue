@@ -1,7 +1,7 @@
 <template>
     <div>
         <p>id: {{ id }}</p>
-        <label>名前：</label><input type="text" v-model="organizationParams.name"/>
+        <label>名前：</label><input type="text" v-model="updateParams.name"/>
         <button @click="updateOrganization">更新</button>
     </div>
 </template>
@@ -11,7 +11,7 @@ import { mapGetters, mapMutations } from 'vuex'
 export default {
     props: ["id"],
     data: () => ({
-        organizationParams: {
+        updateParams: {
             id: "",
             name: ""
         }
@@ -20,16 +20,16 @@ export default {
     methods: {
         ...mapMutations('organizations', ['update']),
         updateOrganization() {
-            this.update(this.organizationParams)
+            this.update(this.updateParams)
             this.$router.push('/organizations')
         }
     },
     mounted() {
-        const organizationParams = {}
-        organizationParams.id = this.id
-        organizationParams.name = this.organizationName(this.id)
+        const initParams = {}
+        initParams.id = this.id
+        initParams.name = this.organizationName(this.id)
 
-        this.organizationParams = organizationParams
+        this.updateParams = initParams
     }
 }
 </script>

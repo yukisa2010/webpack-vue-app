@@ -12,9 +12,7 @@ import { mapGetters } from 'vuex'
 
 export default {
     props: ["customer"],
-    computed: {
-        ...mapGetters('organizations',["organizationName"])
-    }    
+    computed: mapGetters('organizations',["organizationName"])
 }
 </script>
 

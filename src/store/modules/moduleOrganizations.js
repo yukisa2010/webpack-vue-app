@@ -7,19 +7,19 @@ export default {
     }),
     mutations: {
         init(state, organizationsData) {
-            state.organizations = organizationsData.data
+            state.organizations = organizationsData
         },
-        insert(state, newOrganizationName) {
+        insert(state, name) {
             const newOrganization = {}
             newOrganization.id = state.organizations.length + 1
-            newOrganization.name = newOrganizationName
+            newOrganization.name = name
 
             state.organizations.push(newOrganization)
         },
-        update(state, organizationParams) {
+        update(state, params) {
             state.organizations = state.organizations.map(organization => {
-                if(organization.id === Number(organizationParams.id)) {
-                    organization.name = organizationParams.name
+                if(organization.id === Number(params.id)) {
+                    organization.name = params.name
                 }
                 return organization
             })
@@ -27,7 +27,7 @@ export default {
     },
     actions : {
         async fetchOrganizations({ commit }) {
-            const organizationsData = await axios.get('./organizations.json')
+            const organizationsData = (await axios.get('./organizations.json')).data
             commit('init', organizationsData)
         }
     },

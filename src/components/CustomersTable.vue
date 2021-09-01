@@ -22,7 +22,7 @@ import CustomerData from './CustomerData.vue'
 import { mapState } from 'vuex'
 
 export default {
-    computed: mapState('customers', ["customers", "searchedCustomers"]),
+    computed: mapState('customers', ["searchedCustomers"]),
     components: {
         CustomerData
     }

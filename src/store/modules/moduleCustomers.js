@@ -5,31 +5,16 @@ export default {
     namespaced: true,
     state:() => ({
         customers: [],
-        searchedCustomers: [],
-        searchParams: {
-            name: "",
-            gender: "",
-            organizationId: ""
-        },
-        insertParams: {
-            name: "",
-            gender: "",
-            birthday: "",
-            organizationId: 0
-        }
+        searchedCustomers: []
     }),
     mutations: {
         init(state, customersData) {
-            state.customers = customersData.data
-            state.searchedCustomers = customersData.data
+            state.searchedCustomers = state.customers = customersData
         },
-        changeInsertParams(state, value) {
-            state.insertParams = value
-        },
-        search(state) {
-            const reg = new RegExp(state.searchParams.name)
-            const gender = state.searchParams.gender
-            const organizationId = state.searchParams.organizationId
+        search(state, params) {
+            const reg = new RegExp(params.name)
+            const gender = params.gender
+            const organizationId = params.organizationId
             state.searchedCustomers = state.customers.filter(customer => {
                 return (
                     reg.test(customer.name)
@@ -38,24 +23,17 @@ export default {
                 )
             })
         },
-        insert(state) {
-            if(state.insertParams.name === '') { return }
-            const newCustomer = state.insertParams
+        insert(state, params) {
+            if(params.name === '') { return }
+            const newCustomer = params
             newCustomer.id = state.customers.length + 1
             newCustomer.birthday = newCustomer.birthday.replaceAll('-', '/')
             state.customers.push(newCustomer)
-            const defaultParams = {
-                name: "",
-                gender: "",
-                birthday: "",
-                organizationId: 0   
-            }
-            state.insertParams = defaultParams
         }
     },
     actions : {
         async fetchCustomers({ commit }) {
-            const customersData = await axios.get('./customers.json')
+            const customersData = (await axios.get('./customers.json')).data
             commit('init', customersData)
         }
     }

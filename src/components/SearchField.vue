@@ -33,7 +33,7 @@
             </option>
         </select>
         <p>
-            <button @click="search">検索</button>
+            <button @click="search(searchParams)">検索</button>
         </p>
     </div>
 </template>
@@ -41,10 +41,14 @@
 import { mapState, mapMutations } from 'vuex'
 
 export default {
-    computed: {
-        ...mapState('customers',["searchParams"]),
-        ...mapState('organizations', ["organizations"])
-    },
+    data: () => ({
+        searchParams: {
+            name: "",
+            gender: "",
+            organizationId: ""
+        }
+    }),
+    computed: mapState('organizations', ["organizations"]),
     methods: mapMutations('customers', ["search"])
 }
 </script>

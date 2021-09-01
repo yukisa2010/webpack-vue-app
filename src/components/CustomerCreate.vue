@@ -2,21 +2,21 @@
     <div>
         <h1>顧客の追加</h1>
         <p>
-            <label>氏名：</label><input type="text" v-model="_insertParams.name"/>
+            <label>氏名：</label><input type="text" v-model="insertParams.name"/>
         </p>
         <p>
             <label>性別：</label>
-            <input type="radio" name="gender" v-model="_insertParams.gender" value=""><label for="gender">指定なし</label>
-            <input type="radio" name="gender" v-model="_insertParams.gender" value="男"><label for="gender">男性</label>
-            <input type="radio" name="gender" v-model="_insertParams.gender" value="女"><label for="gender">女性</label>
+            <input type="radio" name="gender" v-model="insertParams.gender" value=""><label for="gender">指定なし</label>
+            <input type="radio" name="gender" v-model="insertParams.gender" value="男"><label for="gender">男性</label>
+            <input type="radio" name="gender" v-model="insertParams.gender" value="女"><label for="gender">女性</label>
         </p>
         <p>
             <label for="birthday">生年月日：</label>
-            <input type="date" v-model="_insertParams.birthday"/>
+            <input type="date" v-model="insertParams.birthday"/>
         </p>
         <p>
             <label for="organization"></label>
-            <select v-model="_insertParams.organizationId">
+            <select v-model="insertParams.organizationId">
                 <option value="" selected>選択なし</option>
                 <option 
                     v-for="organization in organizations"
@@ -29,23 +29,21 @@
     </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 export default {
-    computed: {
-        ...mapState('organizations', ["organizations"]),
-        ...mapState('customers', ["insertParams"]),
-        _insertParams: {
-            get() {
-                return this.insertParams
-            },
-            set(value) {
-                this.$store.commit('changeInsertParams', value)
-            }
+    data: () => ({
+        insertParams: {
+            name: "",
+            gender: "",
+            birthday: "",
+            organizationId: 0
         }
-    },
+    }),
+    computed: mapState('organizations', ["organizations"]),
     methods: {
+        ...mapMutations('customers', ["insert"]),
         insertCustomer() {
-            this.$store.commit('customers/insert')
+            this.insert(this.insertParams)
             this.$router.push('/')
         }
     }
