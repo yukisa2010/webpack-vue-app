@@ -3,11 +3,26 @@
         <span class="bold">氏名</span>
         <input type="text" name="name" v-model="searchParams.name">
         <span class="bold">性別</span>
-        <input type="radio" name="gender" v-model="searchParams.gender" value=""><label for="gender">指定なし</label>
-        <input type="radio" name="gender" v-model="searchParams.gender" value="男"><label for="gender">男性</label>
-        <input type="radio" name="gender" v-model="searchParams.gender" value="女"><label for="gender">女性</label>
+        <input 
+            type="radio" 
+            name="gender" 
+            v-model="searchParams.gender" 
+            value=""
+        ><label for="gender">指定なし</label>
+        <input 
+            type="radio" 
+            name="gender" 
+            v-model="searchParams.gender" 
+            value="男"
+        ><label for="gender">男性</label>
+        <input 
+            type="radio" 
+            name="gender" 
+            v-model="searchParams.gender" 
+            value="女"
+        ><label for="gender">女性</label>
         <span class="bold">組織</span>
-        <select id="test" v-model="searchParams.organizationId">
+        <select v-model="searchParams.organizationId">
             <option value="" selected>選択なし</option>
             <option 
                 v-for="organization in organizations" 
