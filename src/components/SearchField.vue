@@ -1,28 +1,28 @@
 <template>
     <div id="search-field">
         <span class="bold">氏名</span>
-        <input type="text" name="name" v-model="searchParams.name">
+        <input type="text" name="name" v-model="params.name">
         <span class="bold">性別</span>
         <input 
             type="radio" 
             name="gender" 
-            v-model="searchParams.gender" 
+            v-model="params.gender" 
             value=""
         ><label for="gender">指定なし</label>
         <input 
             type="radio" 
             name="gender" 
-            v-model="searchParams.gender" 
+            v-model="params.gender" 
             value="男"
         ><label for="gender">男性</label>
         <input 
             type="radio" 
             name="gender" 
-            v-model="searchParams.gender" 
+            v-model="params.gender" 
             value="女"
         ><label for="gender">女性</label>
         <span class="bold">組織</span>
-        <select v-model="searchParams.organizationId">
+        <select v-model="params.organizationId">
             <option value="" selected>選択なし</option>
             <option 
                 v-for="organization in organizations" 
@@ -33,7 +33,7 @@
             </option>
         </select>
         <p>
-            <button @click="search(searchParams)">検索</button>
+            <button @click="search(params)">検索</button>
         </p>
     </div>
 </template>
@@ -42,7 +42,7 @@ import { mapState, mapMutations } from 'vuex'
 
 export default {
     data: () => ({
-        searchParams: {
+        params: {
             name: "",
             gender: "",
             organizationId: ""
