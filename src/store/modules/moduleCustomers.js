@@ -32,8 +32,12 @@ export default {
         }
     },
     actions : {
+        // async fetchCustomers({ commit }) {
+        //     const customersData = (await axios.get('./customers.json')).data
+        //     commit('init', customersData)
+        // }
         async fetchCustomers({ commit }) {
-            const customersData = (await axios.get('./customers.json')).data
+            const customersData = (await axios.get('http://localhost:3000/customers')).data
             commit('init', customersData)
         }
     }
