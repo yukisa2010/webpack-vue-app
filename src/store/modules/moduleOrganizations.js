@@ -6,34 +6,30 @@ export default {
         organizations: []
     }),
     mutations: {
-        init(state, organizationsData) {
-            state.organizations = organizationsData
-        },
-        update(state, params) {
-            state.organizations = state.organizations.map(organization => {
-                if(organization.id === Number(params.id)) {
-                    organization.name = params.name
-                }
-                return organization
-            })
+        init(state, data) {
+            state.organizations = data
         }
     },
     actions : {
         async fetchOrganizations({ commit }) {
-            const organizationsData = (await axios.get('http://localhost:3000/organizations')).data
-            commit('init', organizationsData)
+            axios.defaults.baseURL = 'http://localhost:3000'
+            const data = (await axios.get('/organizations')).data
+            commit('init', data)
         },
-        async insert(state, name) {
+        async insert({ dispatch }, name) {
+            axios.defaults.baseURL = 'http://localhost:3000'
+            const params = { name }
+
+            await axios.post('/organizations', params)
+            dispatch('fetchOrganizations')
+        },
+        async update({ dispatch }, params) {
             axios.defaults.baseURL = 'http://localhost:3000'
 
+            await axios.put(`/organizations/${params.id}`, {name: params.name})
+            dispatch('fetchOrganizations')
 
-            const newOrganization = {}
-            newOrganization.id = state.organizations.length + 1
-            newOrganization.name = name
-
-            state.organizations.push(newOrganization)
-        },
-
+        }
     },
     getters: {
         organizationName: (state) => (id) => {

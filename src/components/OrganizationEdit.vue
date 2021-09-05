@@ -2,11 +2,11 @@
     <div>
         <p>id: {{ id }}</p>
         <label>名前：</label><input type="text" v-model="params.name"/>
-        <button @click="updateOrganization">更新</button>
+        <button @click="updateOrganization">更新</button>{{params}}
     </div>
 </template>
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     props: ["id"],
@@ -18,7 +18,7 @@ export default {
     }),
     computed: mapGetters('organizations', ["organizationName"]),
     methods: {
-        ...mapMutations('organizations', ['update']),
+        ...mapActions('organizations', ['update']),
         updateOrganization() {
             this.update(this.params)
             this.$router.push('/organizations')
