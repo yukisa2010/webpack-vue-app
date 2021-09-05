@@ -8,14 +8,14 @@
     </div>
 </template>
 <script>
-import { mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
     data: () => ({
         name: ""
     }),
     methods: {
-        ...mapMutations('organizations', ["insert"]),
+        ...mapActions('organizations', ["insert"]),
         insertOrganization() {
             this.insert(this.name)
             this.$router.push('/organizations')

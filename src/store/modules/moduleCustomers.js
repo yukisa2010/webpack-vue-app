@@ -9,37 +9,55 @@ export default {
     mutations: {
         init(state, customersData) {
             state.customers = customersData
+        }
+    },
+    getters: {
+        to_jp: () => (gender) => {
+            switch(gender) {
+                case 'male':
+                    return '男'
+                case 'female':
+                    return '女'
+                default:
+                    return ''
+            }
         },
-        insert(state, params) {
-            if(params.name === '') { return }
-            const newCustomer = params
-            newCustomer.id = state.customers.length + 1
-            newCustomer.birthday = newCustomer.birthday.replaceAll('-', '/')
-            state.customers.push(newCustomer)
-        },
-        set(state, data) {
-            state.customers = data
+        formatted_date: () => (date) => {
+            const baseDate = new Date(date)
+            const year = baseDate.getFullYear()
+            const month = (baseDate.getMonth()+1).toString().padStart(2, '0')
+            const day = baseDate.getDate().toString().padStart(2, '0')
+
+            return [ year, month, day ].join('/')
         }
     },
     actions : {
         async fetchCustomers({ commit }) {
             axios.defaults.baseURL = 'http://localhost:3000'
-            const customersData = (await axios.get('/customers')).data
-            commit('init', customersData)
+            const data = (await axios.get('/customers')).data
+            commit('init', data)
         },
         async search({ commit }, params) {
-            axios.defaults.baseURL = 'http://localhost:3000'
             switch(params.gender){
-                case '男':
+                case 'male':
                     params.gender = 0
                     break
-                case '女':
+                case 'female':
                     params.gender = 1
                     break
             }
-            
+                    
+            axios.defaults.baseURL = 'http://localhost:3000'
             const data = (await axios.get('/customers/search', { params })).data
-            commit('set', data)
+            commit('init', data)
+        },
+        async insert({ dispatch }, params) {
+            if(params.name === '') { return }
+            
+            axios.defaults.baseURL = 'http://localhost:3000'
+            await axios.post('/customers', params)
+            dispatch('fetchCustomers')
         }
+
     }
 }

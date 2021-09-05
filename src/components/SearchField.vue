@@ -13,16 +13,16 @@
             type="radio" 
             name="gender" 
             v-model="params.gender" 
-            value="男"
+            value="male"
         ><label for="gender">男性</label>
         <input 
             type="radio" 
             name="gender" 
             v-model="params.gender" 
-            value="女"
+            value="female"
         ><label for="gender">女性</label>
         <span class="bold">組織</span>
-        <select v-model="params.organizationId">
+        <select v-model="params.organization_id">
             <option value="" selected>選択なし</option>
             <option 
                 v-for="organization in organizations" 
@@ -46,7 +46,7 @@ export default {
         params: {
             name: "",
             gender: "",
-            organizationId: ""
+            organization_id: ""
         }
     }),
     computed: mapState('organizations', ["organizations"]),

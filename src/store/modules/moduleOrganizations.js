@@ -9,13 +9,6 @@ export default {
         init(state, organizationsData) {
             state.organizations = organizationsData
         },
-        insert(state, name) {
-            const newOrganization = {}
-            newOrganization.id = state.organizations.length + 1
-            newOrganization.name = name
-
-            state.organizations.push(newOrganization)
-        },
         update(state, params) {
             state.organizations = state.organizations.map(organization => {
                 if(organization.id === Number(params.id)) {
@@ -29,7 +22,18 @@ export default {
         async fetchOrganizations({ commit }) {
             const organizationsData = (await axios.get('http://localhost:3000/organizations')).data
             commit('init', organizationsData)
-        }
+        },
+        async insert(state, name) {
+            axios.defaults.baseURL = 'http://localhost:3000'
+
+
+            const newOrganization = {}
+            newOrganization.id = state.organizations.length + 1
+            newOrganization.name = name
+
+            state.organizations.push(newOrganization)
+        },
+
     },
     getters: {
         organizationName: (state) => (id) => {
