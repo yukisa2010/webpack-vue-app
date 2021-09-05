@@ -4,24 +4,11 @@ import axios from 'axios'
 export default {
     namespaced: true,
     state:() => ({
-        customers: [],
-        searchedCustomers: []
+        customers: []
     }),
     mutations: {
         init(state, customersData) {
-            state.searchedCustomers = state.customers = customersData
-        },
-        search(state, params) {
-            const reg = new RegExp(params.name)
-            const gender = params.gender
-            const organizationId = params.organizationId
-            state.searchedCustomers = state.customers.filter(customer => {
-                return (
-                    reg.test(customer.name)
-                    && (gender === "" ? true : customer.gender === gender )
-                    && (organizationId === "" ? true: customer.organizationId === organizationId)
-                )
-            })
+            state.customers = customersData
         },
         insert(state, params) {
             if(params.name === '') { return }
@@ -29,12 +16,30 @@ export default {
             newCustomer.id = state.customers.length + 1
             newCustomer.birthday = newCustomer.birthday.replaceAll('-', '/')
             state.customers.push(newCustomer)
+        },
+        set(state, data) {
+            state.customers = data
         }
     },
     actions : {
         async fetchCustomers({ commit }) {
-            const customersData = (await axios.get('./customers.json')).data
+            axios.defaults.baseURL = 'http://localhost:3000'
+            const customersData = (await axios.get('/customers')).data
             commit('init', customersData)
+        },
+        async search({ commit }, params) {
+            axios.defaults.baseURL = 'http://localhost:3000'
+            switch(params.gender){
+                case '男':
+                    params.gender = 0
+                    break
+                case '女':
+                    params.gender = 1
+                    break
+            }
+            
+            const data = (await axios.get('/customers/search', { params })).data
+            commit('set', data)
         }
     }
 }

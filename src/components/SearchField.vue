@@ -38,7 +38,8 @@
     </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapActions } from 'vuex'
+import axios from 'axios'
 
 export default {
     data: () => ({
@@ -49,7 +50,9 @@ export default {
         }
     }),
     computed: mapState('organizations', ["organizations"]),
-    methods: mapMutations('customers', ["search"])
+    methods: {
+        ...mapActions('customers', ["search"]),
+    }
 }
 </script>
 <style scoped>

@@ -27,7 +27,7 @@ export default {
     },
     actions : {
         async fetchOrganizations({ commit }) {
-            const organizationsData = (await axios.get('./organizations.json')).data
+            const organizationsData = (await axios.get('http://localhost:3000/organizations')).data
             commit('init', organizationsData)
         }
     },
