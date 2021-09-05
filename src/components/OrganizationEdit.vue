@@ -2,7 +2,7 @@
     <div>
         <p>id: {{ id }}</p>
         <label>名前：</label><input type="text" v-model="params.name"/>
-        <button @click="updateOrganization">更新</button>{{params}}
+        <button @click="updateOrganization">更新</button>
     </div>
 </template>
 <script>
