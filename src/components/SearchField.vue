@@ -50,9 +50,7 @@ export default {
         }
     }),
     computed: mapState('organizations', ["organizations"]),
-    methods: {
-        ...mapActions('customers', ["search"]),
-    }
+    methods: mapActions('customers', ["search"]),
 }
 </script>
 <style scoped>
