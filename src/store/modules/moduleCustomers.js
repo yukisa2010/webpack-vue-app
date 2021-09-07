@@ -51,13 +51,17 @@ export default {
             const data = (await axios.get('/customers/search', { params })).data
             commit('init', data)
         },
-        async insert({ dispatch }, params) {
+        async insert({ dispatch, rootState }, params) {
             if(params.name === '') { return }
+            console.log(rootState.token)
             
             axios.defaults.baseURL = 'http://localhost:3000'
+            axios.defaults.headers.common = {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN' : rootState.token.authenticity_token
+            };
             await axios.post('/customers', params)
             dispatch('fetchCustomers')
         }
-
     }
 }

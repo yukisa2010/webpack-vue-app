@@ -36,16 +36,24 @@ export default {
             name: "",
             gender: "",
             birthday: "",
-            organization_id: 0
+            organization_id: 0,
         }
     }),
-    computed: mapState('organizations', ["organizations"]),
+    computed: {
+        ...mapState('organizations', ["organizations"]),
+        ...mapState(["token"])
+    },
     methods: {
         ...mapActions('customers', ["insert"]),
+        ...mapActions(["fetchToken"]),
         insertCustomer() {
+            this.fetchToken('/customers/new')
             this.insert(this.params)
             this.$router.push('/')
         }
+    },
+    mounted() {
+        this.fetchToken('/customers/new')
     }
 }
 </script>
