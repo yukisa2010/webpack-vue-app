@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import LoginForm from './components/LoginForm.vue'
 import Customers from './components/Customers.vue'
 import CustomerCreate from './components/CustomerCreate.vue'
 import Organizations from './components/Organizations.vue'
@@ -11,6 +12,10 @@ import OrganizationEdit from './components/OrganizationEdit.vue'
 Vue.use(VueRouter)
 
 const routes = [
+    { 
+        path: '/login', 
+        component: LoginForm
+    },
     { 
         path: '/', 
         component: Customers
