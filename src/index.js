@@ -6,7 +6,6 @@ import router from './router'
 
 Vue.use(Vuex)
 
-
 const app = new Vue({
     el: '#app',
     template: `

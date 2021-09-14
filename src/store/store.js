@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import moduleCustomers from './modules/moduleCustomers'
 import moduleOrganizations from './modules/moduleOrganizations'
 import axios from '../axios'
+import router from '../router'
 
 Vue.use(Vuex)
 
@@ -13,27 +14,76 @@ export default new Vuex.Store({
             client: "",
             expiry: "",
             uid: ""
-        }
+        },
+        isAuth: false
     }),
     mutations: {
         setRequestHeader(state, params) {
-            state.requestHeader = params
-            console.log(state.requestHeader)
+            const requestHeader = {}
+            requestHeader.access_token = params["access-token"]
+            requestHeader.client = params.client
+            requestHeader.expiry = params.expiry
+            requestHeader.uid = params.uid
+
+            state.requestHeader = requestHeader
+        },
+        setAuth(state, value) {
+            state.isAuth = value
+        },
+        deleteRequestHeader(state) {
+            state.requestHeader = {}
         }
     },
+    getters: {
+        headers(state) {
+
+            const headers = {
+                "content-type": "application/json",
+                "access-token": state.requestHeader.access_token,
+                "client": state.requestHeader.client,
+                "expiry": state.requestHeader.expiry,
+                "uid": state.requestHeader.uid
+            }
+            return headers
+        },
+        isAuth: state => state.isAuth
+    },
     actions: {
-        async loginAndSetHeader(state, params) {
-
+        async login(state, params) {
             const response = await axios.post('/auth/sign_in', params)
+            if(response.status === 200) {
+                state.commit('setRequestHeader', response.headers)
+                state.commit('setAuth', true)
 
-            console.log(response.headers, 'call from store')
-            const requestHeader = {}
-            requestHeader.access_token = response.headers["access-token"]
-            requestHeader.client = response.headers.client
-            requestHeader.expiry = response.headers.expiry
-            requestHeader.uid = response.headers.uid
-
-            state.commit('setRequestHeader', requestHeader)
+                router.push('/')
+            } else {
+                console.log('ログイン失敗')
+                commit('setAuth', false)
+            }
+        },
+        async logout(state) {
+            console.log(state.getters.headers)
+            await axios.delete('/auth/sign_out', { 
+                headers : state.getters.headers,
+                data: {}
+            }).then(res => {
+                state.commit('setAuth', false)
+            }).catch(e => {
+                console.log(e)
+                return e
+            })
+        },
+        async validateToken(state) {
+            await axios.get('/auth/validate_token', { 
+                headers : state.getters.headers,
+                data: {}
+            }).then(res => {
+                state.commit('setAuth', true)
+                return res
+            }).catch(e => {
+                state.commit('setAuth', false)
+                return e
+            })
         }
     },
     modules: {

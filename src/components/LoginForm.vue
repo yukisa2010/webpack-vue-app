@@ -7,7 +7,8 @@
             <input type="password" v-model="params.password"/>
         </p>
         <p>
-            <button @click="login">Log in</button>
+            <button @click="login(params)">Log in</button>
+            <button @click="logout">Log out</button>
         </p>
     </div>
 </template>
@@ -23,35 +24,6 @@ export default {
             password: "password"
         }
     }),
-    methods: {
-        ...mapActions(["loginAndSetHeader"]),
-        async login() {
-
-            // const data_post = await axios.post('/login')
-            this.loginAndSetHeader(this.params)
-
-            // console.log(data_post.headers)
-            // const access_token = data_post.headers["access-token"]
-            // const client = data_post.headers.client
-            // const expiry = data_post.headers.expiry
-            // const uid = data_post.headers.uid
-
-
-
-            // const data_get = await axios.get('/login')
-            // const data_get = await axios({
-            //     method: 'get',
-            //     url: '/auth/validate_token',
-            //     headers: {
-            //         "access-token": access_token,
-            //         "content-type": "application/json",
-            //         "client": client,
-            //         "expiry": expiry,
-            //         "uid": uid
-            //     }
-            // })
-            // console.log(data_get)
-        }
-    }
+    methods: mapActions(["login", "logout"]),
 }
 </script>
