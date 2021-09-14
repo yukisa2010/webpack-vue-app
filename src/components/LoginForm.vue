@@ -7,7 +7,7 @@
             <input type="password" v-model="params.password"/>
         </p>
         <p>
-            <button @click="login(params)">Log in</button>
+            <button @click="handleLogin">Log in</button>
         </p>
     </div>
 </template>
@@ -19,10 +19,16 @@ import { mapMutations, mapActions } from 'vuex'
 export default {
     data: () => ({
         params: {
-            email: "test-user+1@example.com",
-            password: "password"
+            // email: "test-user+1@example.com",
+            // password: "password"
         }
     }),
-    methods: mapActions(["login"]),
+    methods: {
+        ...mapActions(["login"]),
+        handleLogin() {
+            this.login(this.params)
+            this.$router.push('/')
+        }
+    }
 }
 </script>

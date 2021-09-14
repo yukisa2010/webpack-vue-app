@@ -20,9 +20,9 @@ export default {
         formattedDate: (state) => (date) => {
             const baseDate = new Date(date)
             const year = baseDate.getFullYear()
-            const month = "0" + (baseDate.getMonth() + 1)
-            const day = ("0" + baseDate.getDate())
-            return `${year}/${month.slice(-2)}/${day.slice(-2)}`
+            const month = ("0" + (baseDate.getMonth() + 1)).slice(-2)
+            const day = ("0" + baseDate.getDate()).slice(-2)
+            return `${year}/${month}/${day}`
         }
     },
     mutations: {
@@ -50,9 +50,7 @@ export default {
             })
         },
         search({ rootGetters, commit }, params) {
-            console.log(params)
-            axios.get('/customers/search', 
-            {
+            axios.get('/customers/search', {
                 headers: rootGetters.headers,
                 params
             }).then(res => {

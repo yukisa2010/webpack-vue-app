@@ -16,7 +16,6 @@ export default {
                 headers: rootGetters.headers,
                 data: {}
             }).then(res => {
-                console.log(res)
                 commit('init', res.data)
             })
         },
@@ -26,7 +25,6 @@ export default {
                 headers: rootGetters.headers
             }).then(res => {
                 dispatch('fetchOrganizations')
-                return
             }).catch(e => {
                 console.log(e)
             })
@@ -37,7 +35,6 @@ export default {
                 headers: rootGetters.headers
             }).then(res => {
                 dispatch('fetchOrganizations')
-                return
             }).catch(e => {
                 console.log(e)
             })
@@ -46,10 +43,9 @@ export default {
     },
     getters: {
         organization: (state) => (id) => {
-            const organization = state.organizations.find(organization =>{
+            return state.organizations.find(organization =>{
                 return organization.id === Number(id)
             })
-            return organization
         }
     }
 }

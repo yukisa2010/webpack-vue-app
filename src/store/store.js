@@ -54,10 +54,8 @@ export default new Vuex.Store({
             if(response.status === 200) {
                 state.commit('setRequestHeader', response.headers)
                 state.commit('setAuth', true)
-
-                router.push('/')
             } else {
-                console.log('ログイン失敗')
+                console.log('login failed')
                 commit('setAuth', false)
             }
         },
@@ -69,7 +67,6 @@ export default new Vuex.Store({
                 state.commit('setAuth', false)
             }).catch(e => {
                 console.log(e)
-                return e
             })
         },
         async validateToken(state) {
@@ -80,8 +77,8 @@ export default new Vuex.Store({
                 state.commit('setAuth', true)
                 return res
             }).catch(e => {
+                console.log('validate failed')
                 state.commit('setAuth', false)
-                return e
             })
         }
     },
