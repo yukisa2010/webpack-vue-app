@@ -19,25 +19,39 @@ export default new Vuex.Store({
     }),
     mutations: {
         init(state) {
+            const allCookies = document.cookie.split(';')
+            const HEADERS = ["access-token", "client", "uid", "expiry"]
+
+            const cookieObj = {}
+            allCookies.forEach(cookie => {
+                const key = cookie.split('=')[0].trim()
+                const value = cookie.split('=')[1].trim()
+                const index = HEADERS.indexOf(key)
+                if(index !== -1) {
+                    cookieObj[key] = value
+                }                
+            })
+
             const requestHeader = {}
-            requestHeader.access_token = localStorage.getItem("access-token")
-            requestHeader.client = localStorage.getItem("client")
-            requestHeader.expiry = localStorage.getItem("expiry")
-            requestHeader.uid = localStorage.getItem("uid")
+            requestHeader.access_token = cookieObj["access-token"]
+            requestHeader.client = cookieObj["client"]
+            requestHeader.expiry = cookieObj["expiry"]
+            requestHeader.uid = cookieObj["uid"]
 
             state.requestHeader = requestHeader
-            
         },
 
         setRequestHeader(state, params) {
             const requestHeader = {}
+            const MAX_AGE = 3600
+
             requestHeader.access_token = params["access-token"]
             requestHeader.client = params.client
             requestHeader.expiry = params.expiry
             requestHeader.uid = params.uid
 
             Object.keys(params).forEach(key => {
-                localStorage.setItem(key, params[key])
+                document.cookie = `${key}=${params[key]};max-age=${MAX_AGE}`
             })
             state.requestHeader = requestHeader
             
@@ -46,12 +60,10 @@ export default new Vuex.Store({
             state.isAuth = value
         },
         deleteRequestHeader(state) {
-
-            localStorage.removeItem('access-token')
-            localStorage.removeItem('client')
-            localStorage.removeItem('expiry')
-            localStorage.removeItem('client')
-
+            const HEADERS = ["access-token", "client", "uid", "expiry"]
+            HEADERS.forEach(key => {
+                document.cookie = `${key}=;max-age=0`
+            })
             state.requestHeader = {}
         }
     },
@@ -86,6 +98,7 @@ export default new Vuex.Store({
                 headers : state.getters.headers,
                 data: {}
             }).then(res => {
+                state.commit('deleteRequestHeader')
                 state.commit('setAuth', false)
 
             }).catch(e => {

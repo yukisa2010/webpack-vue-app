@@ -56,10 +56,11 @@ const router = new VueRouter({
     routes
 })
 
-router.beforeEach((to,from,next) => {
-    store.dispatch('validateToken')
-
-    if(to.matched.some(record => record.meta.requiresAuth) && store.getters.isAuth) {
+router.beforeEach(async (to,from,next) => {
+    store.commit('init')
+    await store.dispatch('validateToken')
+    const auth = await store.getters.isAuth
+    if(to.matched.some(record => record.meta.requiresAuth) && auth) {
         next()
     } else {
         (to.path !== '/login') ? next('/login') : next()

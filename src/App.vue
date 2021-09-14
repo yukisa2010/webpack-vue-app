@@ -12,10 +12,6 @@ import { mapMutations } from 'vuex'
 export default {
     components: {
         Header
-    },
-    methods: mapMutations(["init"]),
-    created() {
-        this.init()
     }
 }
 </script>
