@@ -19,15 +19,12 @@ import { mapMutations, mapActions } from 'vuex'
 export default {
     data: () => ({
         params: {
-            // email: "test-user+1@example.com",
-            // password: "password"
         }
     }),
     methods: {
         ...mapActions(["login"]),
         handleLogin() {
             this.login(this.params)
-            this.$router.push('/')
         }
     }
 }

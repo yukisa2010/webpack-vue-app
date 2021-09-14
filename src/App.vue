@@ -7,10 +7,15 @@
 
 <script>
 import Header from './components/Header.vue'
+import { mapMutations } from 'vuex'
 
 export default {
     components: {
         Header
+    },
+    methods: mapMutations(["init"]),
+    created() {
+        this.init()
     }
 }
 </script>

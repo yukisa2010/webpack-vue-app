@@ -18,6 +18,17 @@ export default new Vuex.Store({
         isAuth: false
     }),
     mutations: {
+        init(state) {
+            const requestHeader = {}
+            requestHeader.access_token = localStorage.getItem("access-token")
+            requestHeader.client = localStorage.getItem("client")
+            requestHeader.expiry = localStorage.getItem("expiry")
+            requestHeader.uid = localStorage.getItem("uid")
+
+            state.requestHeader = requestHeader
+            
+        },
+
         setRequestHeader(state, params) {
             const requestHeader = {}
             requestHeader.access_token = params["access-token"]
@@ -25,7 +36,11 @@ export default new Vuex.Store({
             requestHeader.expiry = params.expiry
             requestHeader.uid = params.uid
 
+            Object.keys(params).forEach(key => {
+                localStorage.setItem(key, params[key])
+            })
             state.requestHeader = requestHeader
+            
         },
         setAuth(state, value) {
             state.isAuth = value
@@ -54,6 +69,7 @@ export default new Vuex.Store({
             if(response.status === 200) {
                 state.commit('setRequestHeader', response.headers)
                 state.commit('setAuth', true)
+                router.push('/')
             } else {
                 console.log('login failed')
                 commit('setAuth', false)
