@@ -19,12 +19,18 @@
 </template>
 <script>
 import CustomerData from './CustomerData.vue'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
     computed: mapState('customers', ["searchedCustomers"]),
     components: {
         CustomerData
+    },
+    methods: {
+        ...mapActions('customers',["fetchCustomers"]),
+    },
+    mounted() {
+        this.fetchCustomers()
     }
 }
 </script>

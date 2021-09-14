@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../../axios'
 
 export default {
     namespaced: true,
@@ -6,8 +6,8 @@ export default {
         organizations: []
     }),
     mutations: {
-        init(state, organizationsData) {
-            state.organizations = organizationsData
+        init(state, data) {
+            state.organizations = data
         },
         insert(state, name) {
             const newOrganization = {}
@@ -26,9 +26,15 @@ export default {
         }
     },
     actions : {
-        async fetchOrganizations({ commit }) {
-            const organizationsData = (await axios.get('./organizations.json')).data
-            commit('init', organizationsData)
+        fetchOrganizations({ rootGetters, commit }) {
+            console.log(rootGetters.headers)
+            axios.get('/organizations', {
+                headers: rootGetters.headers,
+                data: {}
+            }).then(res => {
+                console.log(res)
+                commit('init', res.data)
+            })
         }
     },
     getters: {

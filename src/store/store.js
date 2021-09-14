@@ -62,7 +62,6 @@ export default new Vuex.Store({
             }
         },
         async logout(state) {
-            console.log(state.getters.headers)
             await axios.delete('/auth/sign_out', { 
                 headers : state.getters.headers,
                 data: {}

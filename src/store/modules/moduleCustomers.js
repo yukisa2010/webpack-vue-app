@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../../axios'
 
 
 export default {
@@ -32,9 +32,13 @@ export default {
         }
     },
     actions : {
-        async fetchCustomers({ commit }) {
-            const customersData = (await axios.get('./customers.json')).data
-            commit('init', customersData)
-        }
+        fetchCustomers({ rootGetters, commit }) {
+            axios.get('/customers', {
+                headers: rootGetters.headers,
+                data: {}
+            }).then(res => {
+                commit('init', res.data)
+            })
+        },
     }
 }

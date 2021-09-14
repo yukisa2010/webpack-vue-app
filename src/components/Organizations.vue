@@ -17,9 +17,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
-    computed: mapState('organizations', ["organizations"])
+    computed: mapState('organizations', ["organizations"]),
+    methods: {
+        ...mapActions('organizations', ["fetchOrganizations"]),
+    },
+    created() {
+        this.fetchOrganizations()
+    }
+
 }
 </script>
