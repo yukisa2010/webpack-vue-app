@@ -9,13 +9,13 @@ export default {
         init(state, data) {
             state.organizations = data
         },
-        insert(state, name) {
-            const newOrganization = {}
-            newOrganization.id = state.organizations.length + 1
-            newOrganization.name = name
+        // insert(state, name) {
+        //     const newOrganization = {}
+        //     newOrganization.id = state.organizations.length + 1
+        //     newOrganization.name = name
 
-            state.organizations.push(newOrganization)
-        },
+        //     state.organizations.push(newOrganization)
+        // },
         update(state, params) {
             state.organizations = state.organizations.map(organization => {
                 if(organization.id === Number(params.id)) {
@@ -27,13 +27,23 @@ export default {
     },
     actions : {
         fetchOrganizations({ rootGetters, commit }) {
-            console.log(rootGetters.headers)
             axios.get('/organizations', {
                 headers: rootGetters.headers,
                 data: {}
             }).then(res => {
                 console.log(res)
                 commit('init', res.data)
+            })
+        },
+        insert({ rootGetters, dispatch }, params) {
+            axios.post('/organizations', params,
+            {
+                headers: rootGetters.headers
+            }).then(res => {
+                dispatch('fetchOrganizations')
+                return
+            }).catch(e => {
+                console.log(e)
             })
         }
     },

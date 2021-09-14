@@ -24,9 +24,8 @@ export default {
     methods: {
         ...mapActions('organizations', ["fetchOrganizations"]),
     },
-    created() {
+    mounted() {
         this.fetchOrganizations()
     }
-
 }
 </script>

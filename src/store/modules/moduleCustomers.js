@@ -22,13 +22,6 @@ export default {
                     && (organizationId === "" ? true: customer.organizationId === organizationId)
                 )
             })
-        },
-        insert(state, params) {
-            if(params.name === '') { return }
-            const newCustomer = params
-            newCustomer.id = state.customers.length + 1
-            newCustomer.birthday = newCustomer.birthday.replaceAll('-', '/')
-            state.customers.push(newCustomer)
         }
     },
     actions : {
@@ -40,5 +33,15 @@ export default {
                 commit('init', res.data)
             })
         },
+        insert({ rootGetters, dispatch }, params) {
+            axios.post('/customers', params, {
+                headers: rootGetters.headers
+            }).then(res => {
+                dispatch('fetchCustomers')
+                return
+            }).catch(e => {
+                console.log(e)
+            })
+        }
     }
 }
