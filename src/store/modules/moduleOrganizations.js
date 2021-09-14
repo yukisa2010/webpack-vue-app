@@ -8,21 +8,6 @@ export default {
     mutations: {
         init(state, data) {
             state.organizations = data
-        },
-        // insert(state, name) {
-        //     const newOrganization = {}
-        //     newOrganization.id = state.organizations.length + 1
-        //     newOrganization.name = name
-
-        //     state.organizations.push(newOrganization)
-        // },
-        update(state, params) {
-            state.organizations = state.organizations.map(organization => {
-                if(organization.id === Number(params.id)) {
-                    organization.name = params.name
-                }
-                return organization
-            })
         }
     },
     actions : {
@@ -45,14 +30,26 @@ export default {
             }).catch(e => {
                 console.log(e)
             })
+        },
+        update({ rootGetters, dispatch }, { id, name }) {
+            axios.put(`/organizations/${id}`, { name },
+            {
+                headers: rootGetters.headers
+            }).then(res => {
+                dispatch('fetchOrganizations')
+                return
+            }).catch(e => {
+                console.log(e)
+            })
         }
+
     },
     getters: {
-        organizationName: (state) => (id) => {
+        organization: (state) => (id) => {
             const organization = state.organizations.find(organization =>{
                 return organization.id === Number(id)
             })
-            return !organization ? '' : organization.name
+            return organization
         }
     }
 }

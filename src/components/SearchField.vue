@@ -13,16 +13,16 @@
             type="radio" 
             name="gender" 
             v-model="params.gender" 
-            value="男"
+            value="0"
         ><label for="gender">男性</label>
         <input 
             type="radio" 
             name="gender" 
             v-model="params.gender" 
-            value="女"
+            value="1"
         ><label for="gender">女性</label>
         <span class="bold">組織</span>
-        <select v-model="params.organizationId">
+        <select v-model="params.organization_id">
             <option value="" selected>選択なし</option>
             <option 
                 v-for="organization in organizations" 
@@ -38,18 +38,24 @@
     </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
     data: () => ({
         params: {
             name: "",
             gender: "",
-            organizationId: ""
+            organization_id: ""
         }
     }),
     computed: mapState('organizations', ["organizations"]),
-    methods: mapMutations('customers', ["search"])
+    methods: {
+        ...mapActions('customers', ["search"]),
+        ...mapActions('organizations', ["fetchOrganizations"]),
+    },
+    mounted() {
+        this.fetchOrganizations()
+    }
 }
 </script>
 <style scoped>

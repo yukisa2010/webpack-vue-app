@@ -8,7 +8,6 @@
         </p>
         <p>
             <button @click="login(params)">Log in</button>
-            <button @click="logout">Log out</button>
         </p>
     </div>
 </template>
@@ -24,6 +23,6 @@ export default {
             password: "password"
         }
     }),
-    methods: mapActions(["login", "logout"]),
+    methods: mapActions(["login"]),
 }
 </script>

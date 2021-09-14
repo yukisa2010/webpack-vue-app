@@ -9,7 +9,7 @@
                 <th>所属会社</th>
             </tr>
             <CustomerData
-                v-for="customer in searchedCustomers"
+                v-for="customer in customers"
                 :key="customer.name"
                 :customer="customer"
             >
@@ -22,7 +22,7 @@ import CustomerData from './CustomerData.vue'
 import { mapState, mapActions } from 'vuex'
 
 export default {
-    computed: mapState('customers', ["searchedCustomers"]),
+    computed: mapState('customers', ["customers"]),
     components: {
         CustomerData
     },

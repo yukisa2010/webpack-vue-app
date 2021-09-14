@@ -5,24 +5,30 @@ export default {
     namespaced: true,
     state:() => ({
         customers: [],
-        searchedCustomers: []
     }),
-    mutations: {
-        init(state, customersData) {
-            state.searchedCustomers = state.customers = customersData
+    getters : {
+        formattedGender: (state) => (gender) => {
+            switch(gender) {
+                case "male":
+                    return "男"
+                case "female":
+                    return "女"
+                default:
+                    return ""
+            }
         },
-        search(state, params) {
-            const reg = new RegExp(params.name)
-            const gender = params.gender
-            const organizationId = params.organizationId
-            state.searchedCustomers = state.customers.filter(customer => {
-                return (
-                    reg.test(customer.name)
-                    && (gender === "" ? true : customer.gender === gender )
-                    && (organizationId === "" ? true: customer.organizationId === organizationId)
-                )
-            })
+        formattedDate: (state) => (date) => {
+            const baseDate = new Date(date)
+            const year = baseDate.getFullYear()
+            const month = "0" + (baseDate.getMonth() + 1)
+            const day = ("0" + baseDate.getDate())
+            return `${year}/${month.slice(-2)}/${day.slice(-2)}`
         }
+    },
+    mutations: {
+        init(state, data) {
+            state.customers = data
+        },
     },
     actions : {
         fetchCustomers({ rootGetters, commit }) {
@@ -42,6 +48,19 @@ export default {
             }).catch(e => {
                 console.log(e)
             })
+        },
+        search({ rootGetters, commit }, params) {
+            console.log(params)
+            axios.get('/customers/search', 
+            {
+                headers: rootGetters.headers,
+                params
+            }).then(res => {
+                commit('init', res.data)
+            }).catch(e => {
+                console.log(e)
+            })
+
         }
     }
 }

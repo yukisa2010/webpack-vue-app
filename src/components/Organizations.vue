@@ -21,9 +21,7 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
     computed: mapState('organizations', ["organizations"]),
-    methods: {
-        ...mapActions('organizations', ["fetchOrganizations"]),
-    },
+    methods: mapActions('organizations', ["fetchOrganizations"]),
     mounted() {
         this.fetchOrganizations()
     }
