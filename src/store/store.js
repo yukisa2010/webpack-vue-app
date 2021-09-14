@@ -46,6 +46,12 @@ export default new Vuex.Store({
             state.isAuth = value
         },
         deleteRequestHeader(state) {
+
+            localStorage.removeItem('access-token')
+            localStorage.removeItem('client')
+            localStorage.removeItem('expiry')
+            localStorage.removeItem('client')
+
             state.requestHeader = {}
         }
     },
@@ -81,6 +87,7 @@ export default new Vuex.Store({
                 data: {}
             }).then(res => {
                 state.commit('setAuth', false)
+
             }).catch(e => {
                 console.log(e)
             })
