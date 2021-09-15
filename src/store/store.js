@@ -18,7 +18,7 @@ export default new Vuex.Store({
         isAuth: false
     }),
     mutations: {
-        init(state) {
+        setHeaderFromCookies(state) {
             const allCookies = document.cookie.split(';')
             const REQUIRE_HEADERS = ["access-token", "client", "uid", "expiry"]
 
@@ -35,12 +35,10 @@ export default new Vuex.Store({
         },
         setRequestHeader(state, params) {
             const MAX_AGE = 3600
-
             Object.keys(params).forEach(key => {
                 document.cookie = `${key}=${params[key]};max-age=${MAX_AGE}`
             })
             state.requestHeader = params
-            
         },
         setAuth(state, value) {
             state.isAuth = value

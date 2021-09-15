@@ -57,10 +57,10 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async (to,from,next) => {
-    store.commit('init')
+    store.commit('setHeaderFromCookies')
     await store.dispatch('validateToken')
-    const auth = await store.getters.isAuth
-    if(to.matched.some(record => record.meta.requiresAuth) && auth) {
+    const validateResult = await store.getters.isAuth
+    if(to.matched.some(record => record.meta.requiresAuth) && validateResult) {
         next()
     } else {
         (to.path !== '/login') ? next('/login') : next()
