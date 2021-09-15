@@ -10,50 +10,36 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state:() => ({
         requestHeader: {
-            access_token: "",
-            client: "",
-            expiry: "",
-            uid: ""
+            "access-token": "",
+            "client": "",
+            "expiry": "",
+            "uid": ""
         },
         isAuth: false
     }),
     mutations: {
         init(state) {
             const allCookies = document.cookie.split(';')
-            const HEADERS = ["access-token", "client", "uid", "expiry"]
+            const REQUIRE_HEADERS = ["access-token", "client", "uid", "expiry"]
 
             const cookieObj = {}
             allCookies.forEach(cookie => {
-                const key = cookie.split('=')[0].trim()
-                const value = cookie.split('=')[1].trim()
-                const index = HEADERS.indexOf(key)
+                const [ key, value ] = cookie.trim().split('=')
+                const index = REQUIRE_HEADERS.indexOf(key)
                 if(index !== -1) {
                     cookieObj[key] = value
-                }                
+                }
             })
 
-            const requestHeader = {}
-            requestHeader.access_token = cookieObj["access-token"]
-            requestHeader.client = cookieObj["client"]
-            requestHeader.expiry = cookieObj["expiry"]
-            requestHeader.uid = cookieObj["uid"]
-
-            state.requestHeader = requestHeader
+            state.requestHeader = cookieObj
         },
-
         setRequestHeader(state, params) {
-            const requestHeader = {}
             const MAX_AGE = 3600
-
-            requestHeader.access_token = params["access-token"]
-            requestHeader.client = params.client
-            requestHeader.expiry = params.expiry
-            requestHeader.uid = params.uid
 
             Object.keys(params).forEach(key => {
                 document.cookie = `${key}=${params[key]};max-age=${MAX_AGE}`
             })
-            state.requestHeader = requestHeader
+            state.requestHeader = params
             
         },
         setAuth(state, value) {
@@ -69,14 +55,8 @@ export default new Vuex.Store({
     },
     getters: {
         headers(state) {
-
-            const headers = {
-                "content-type": "application/json",
-                "access-token": state.requestHeader.access_token,
-                "client": state.requestHeader.client,
-                "expiry": state.requestHeader.expiry,
-                "uid": state.requestHeader.uid
-            }
+            const headers = state.requestHeader
+            headers["content-type"] = "application/json"
             return headers
         },
         isAuth: state => state.isAuth
