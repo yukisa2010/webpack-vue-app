@@ -41,16 +41,12 @@ export default {
     }),
     computed: mapState('organizations', ["organizations"]),
     methods: {
-        ...mapActions('organizations', ["fetchOrganizations"]),
         ...mapActions('customers', ["insert"]),
         insertCustomer() {
             this.insert(this.params)
             this.$router.push('/')
         }
     },
-    created() {
-        this.fetchOrganizations()
-    }
 
 }
 </script>

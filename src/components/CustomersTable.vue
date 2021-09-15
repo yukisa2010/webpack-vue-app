@@ -22,16 +22,10 @@ import CustomerData from './CustomerData.vue'
 import { mapState, mapActions } from 'vuex'
 
 export default {
-    computed: mapState('customers', ["customers"]),
     components: {
         CustomerData
     },
-    methods: {
-        ...mapActions('customers',["fetchCustomers"]),
-    },
-    mounted() {
-        this.fetchCustomers()
-    }
+    computed: mapState('customers', ["customers"])
 }
 </script>
 

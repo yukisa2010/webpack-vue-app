@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-
 import LoginForm from './components/LoginForm.vue'
 import Customers from './components/Customers.vue'
 import CustomerCreate from './components/CustomerCreate.vue'
@@ -9,7 +8,6 @@ import Organizations from './components/Organizations.vue'
 import OrganizationCreate from './components/OrganizationCreate.vue'
 import OrganizationEdit from './components/OrganizationEdit.vue'
 import store from './store/store'
-
 
 Vue.use(VueRouter)
 

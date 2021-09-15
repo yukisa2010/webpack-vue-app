@@ -21,7 +21,6 @@ export default new Vuex.Store({
         setHeaderFromCookies(state) {
             const allCookies = document.cookie.split(';')
             const REQUIRE_HEADERS = ["access-token", "client", "uid", "expiry"]
-
             const cookieObj = {}
             allCookies.forEach(cookie => {
                 const [ key, value ] = cookie.trim().split('=')
@@ -30,7 +29,6 @@ export default new Vuex.Store({
                     cookieObj[key] = value
                 }
             })
-
             state.requestHeader = cookieObj
         },
         setRequestHeader(state, params) {

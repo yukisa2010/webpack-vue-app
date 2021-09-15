@@ -52,9 +52,6 @@ export default {
     methods: {
         ...mapActions('customers', ["search"]),
         ...mapActions('organizations', ["fetchOrganizations"]),
-    },
-    mounted() {
-        this.fetchOrganizations()
     }
 }
 </script>

@@ -7,11 +7,19 @@
 
 <script>
 import Header from './components/Header.vue'
-import { mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
     components: {
         Header
+    },
+    methods: {
+        ...mapActions("customers",["fetchCustomers"]),
+        ...mapActions("organizations",["fetchOrganizations"])
+    },
+    mounted() {
+        this.fetchOrganizations()
+        this.fetchCustomers()
     }
 }
 </script>
