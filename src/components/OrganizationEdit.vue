@@ -9,14 +9,14 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-    props: ["id"],
+    props: ['id'],
     data: () => ({
         params: {
-            id: "",
-            name: ""
+            id: '',
+            name: ''
         }
     }),
-    computed: mapGetters('organizations', ["organization"]),
+    computed: mapGetters('organizations', ['organization']),
     methods: {
         ...mapActions('organizations', ['update']),
         updateOrganization() {

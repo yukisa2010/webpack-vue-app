@@ -14,8 +14,8 @@ export default {
         Header
     },
     methods: {
-        ...mapActions("customers",["fetchCustomers"]),
-        ...mapActions("organizations",["fetchOrganizations"])
+        ...mapActions('customers',['fetchCustomers']),
+        ...mapActions('organizations',['fetchOrganizations'])
     },
     mounted() {
         this.fetchOrganizations()

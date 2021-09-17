@@ -11,8 +11,8 @@
 import { mapGetters } from 'vuex'
 
 export default {
-    props: ["customer"],
-    computed: mapGetters('customers', ["formattedGender", "formattedDate"])
+    props: ['customer'],
+    computed: mapGetters('customers', ['formattedGender', 'formattedDate'])
 }
 </script>
 

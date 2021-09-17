@@ -22,7 +22,7 @@ export default {
         }
     }),
     methods: {
-        ...mapActions(["login"]),
+        ...mapActions(['login']),
         handleLogin() {
             this.login(this.params)
         }

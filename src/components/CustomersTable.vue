@@ -25,7 +25,7 @@ export default {
     components: {
         CustomerData
     },
-    computed: mapState('customers', ["customers"])
+    computed: mapState('customers', ['customers'])
 }
 </script>
 

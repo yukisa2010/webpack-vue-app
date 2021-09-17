@@ -33,15 +33,15 @@ import { mapState, mapActions } from 'vuex'
 export default {
     data: () => ({
         params: {
-            name: "",
-            gender: "",
-            birthday: "",
+            name: '',
+            gender: '',
+            birthday: '',
             organization_id: 0
         }
     }),
-    computed: mapState('organizations', ["organizations"]),
+    computed: mapState('organizations', ['organizations']),
     methods: {
-        ...mapActions('customers', ["insert"]),
+        ...mapActions('customers', ['insert']),
         insertCustomer() {
             this.insert(this.params)
             this.$router.push('/')

@@ -13,11 +13,11 @@ import { mapActions } from 'vuex'
 export default {
     data: () => ({
         params: {
-            name: ""
+            name: ''
         }
     }),
     methods: {
-        ...mapActions('organizations', ["insert"]),
+        ...mapActions('organizations', ['insert']),
         insertOrganization() {
             this.insert(this.params)
             this.$router.push('/organizations')

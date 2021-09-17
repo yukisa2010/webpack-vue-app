@@ -43,15 +43,15 @@ import { mapState, mapActions } from 'vuex'
 export default {
     data: () => ({
         params: {
-            name: "",
-            gender: "",
-            organization_id: ""
+            name: '',
+            gender: '',
+            organization_id: ''
         }
     }),
-    computed: mapState('organizations', ["organizations"]),
+    computed: mapState('organizations', ['organizations']),
     methods: {
-        ...mapActions('customers', ["search"]),
-        ...mapActions('organizations', ["fetchOrganizations"]),
+        ...mapActions('customers', ['search']),
+        ...mapActions('organizations', ['fetchOrganizations']),
     }
 }
 </script>

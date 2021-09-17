@@ -10,17 +10,17 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state:() => ({
         requestHeader: {
-            "access-token": "",
-            "client": "",
-            "expiry": "",
-            "uid": ""
+            'access-token': '',
+            'client': '',
+            'expiry': '',
+            'uid': ''
         },
         isAuth: false
     }),
     mutations: {
         setHeaderFromCookies(state) {
             const allCookies = document.cookie.split(';')
-            const REQUIRE_HEADERS = ["access-token", "client", "uid", "expiry"]
+            const REQUIRE_HEADERS = ['access-token', 'client', 'uid', 'expiry']
             const cookieObj = {}
             allCookies.forEach(cookie => {
                 const [ key, value ] = cookie.trim().split('=')
@@ -42,7 +42,7 @@ export default new Vuex.Store({
             state.isAuth = value
         },
         deleteRequestHeader(state) {
-            const HEADERS = ["access-token", "client", "uid", "expiry"]
+            const HEADERS = ['access-token', 'client', 'uid', 'expiry']
             HEADERS.forEach(key => {
                 document.cookie = `${key}=;max-age=0`
             })
@@ -52,7 +52,7 @@ export default new Vuex.Store({
     getters: {
         headers(state) {
             const headers = state.requestHeader
-            headers["content-type"] = "application/json"
+            headers['content-type'] = 'application/json'
             return headers
         },
         isAuth: state => state.isAuth
