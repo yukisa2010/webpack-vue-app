@@ -12,33 +12,29 @@ export default {
         },
     },
     actions : {
-        fetchCustomers({ rootGetters, commit }) {
-            axios.get('/customers', {
+        async fetchCustomers({ rootGetters, commit }) {
+            const res = await axios.get('/customers', {
                 headers: rootGetters.headers,
                 data: {}
-            }).then(res => {
-                commit('init', res.data)
             })
+            commit('init', res.data)
         },
-        insert({ rootGetters, dispatch }, params) {
-            axios.post('/customers', params, {
+        async insert({ rootGetters, dispatch }, params) {
+            await axios.post('/customers', params, {
                 headers: rootGetters.headers
-            }).then(res => {
-                dispatch('fetchCustomers')
-                return
             }).catch(e => {
                 console.log(e)
             })
+            dispatch('fetchCustomers')
         },
-        search({ rootGetters, commit }, params) {
-            axios.get('/customers/search', {
+        async search({ rootGetters, commit }, params) {
+            const res = await axios.get('/customers/search', {
                 headers: rootGetters.headers,
                 params
-            }).then(res => {
-                commit('init', res.data)
             }).catch(e => {
                 console.log(e)
             })
+            commit('init', res.data)
         }
     }
 }

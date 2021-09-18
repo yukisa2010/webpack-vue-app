@@ -59,39 +59,39 @@ export default new Vuex.Store({
     },
     actions: {
         async login(state, params) {
-            const response = await axios.post('/auth/sign_in', params)
-            if(response.status === 200) {
-                state.commit('setRequestHeader', response.headers)
+            const res = await axios.post('/auth/sign_in', params).catch(e => {
+                console.log(e)
+                commit('setAuth', false)                
+            })
+            if(res.status === 200) {
+                state.commit('setRequestHeader', res.headers)
                 state.commit('setAuth', true)
                 router.push('/')
-            } else {
-                console.log('login failed')
-                commit('setAuth', false)
             }
         },
-        async logout(state) {
-            await axios.delete('/auth/sign_out', { 
-                headers : state.getters.headers,
+        async logout({ getters, commit }) {
+            const res = await axios.delete('/auth/sign_out', { 
+                headers : getters.headers,
                 data: {}
-            }).then(res => {
-                state.commit('deleteRequestHeader')
-                state.commit('setAuth', false)
-
             }).catch(e => {
                 console.log(e)
             })
+            if(res.status === 200) {
+                commit('deleteRequestHeader')
+                commit('setAuth', false)
+            }
         },
-        async validateToken(state) {
-            await axios.get('/auth/validate_token', { 
-                headers : state.getters.headers,
+        async validateToken({ getters, commit }) {
+            const res = await axios.get('/auth/validate_token', { 
+                headers : getters.headers,
                 data: {}
-            }).then(res => {
-                state.commit('setAuth', true)
-                return res
             }).catch(e => {
                 console.log('validate failed')
-                state.commit('setAuth', false)
+                commit('setAuth', false)
             })
+            if(res.status === 200) {
+                commit('setAuth', true)
+            }
         }
     },
     modules: {

@@ -11,33 +11,30 @@ export default {
         }
     },
     actions : {
-        fetchOrganizations({ rootGetters, commit }) {
-            axios.get('/organizations', {
+        async fetchOrganizations({ rootGetters, commit }) {
+            const res = await axios.get('/organizations', {
                 headers: rootGetters.headers,
                 data: {}
-            }).then(res => {
-                commit('init', res.data)
             })
+            commit('init', res.data)
         },
-        insert({ rootGetters, dispatch }, params) {
-            axios.post('/organizations', params,
-            {
+        async insert({ rootGetters, dispatch }, params) {
+            await axios.post('/organizations',
+                params, {
                 headers: rootGetters.headers
-            }).then(res => {
-                dispatch('fetchOrganizations')
             }).catch(e => {
                 console.log(e)
             })
+            dispatch('fetchOrganizations')
         },
-        update({ rootGetters, dispatch }, { id, name }) {
-            axios.put(`/organizations/${id}`, { name },
+        async update({ rootGetters, dispatch }, { id, name }) {
+            await axios.put(`/organizations/${id}`, { name },
             {
                 headers: rootGetters.headers
-            }).then(res => {
-                dispatch('fetchOrganizations')
             }).catch(e => {
                 console.log(e)
             })
+            dispatch('fetchOrganizations')
         }
 
     },
