@@ -7,19 +7,18 @@
             type="radio" 
             name="gender" 
             v-model="params.gender" 
-            value=""
         ><label for="gender">指定なし</label>
         <input 
             type="radio" 
             name="gender" 
-            v-model="params.gender" 
-            value="0"
+            v-model="params.gender"
+            :value="gender.male"
         ><label for="gender">男性</label>
         <input 
             type="radio" 
             name="gender" 
             v-model="params.gender" 
-            value="1"
+            :value="gender.female"
         ><label for="gender">女性</label>
         <span class="bold">組織</span>
         <select v-model="params.organization_id">
@@ -42,6 +41,10 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
     data: () => ({
+        gender: {
+            male: 0,
+            female: 1
+        },
         params: {
             name: '',
             gender: '',
