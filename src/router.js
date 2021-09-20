@@ -56,7 +56,7 @@ const router = new VueRouter({
 
 router.beforeEach(async (to,from,next) => {
     store.commit('setHeaderFromCookies')
-    await store.dispatch('validateToken')
+    store.dispatch('validateToken')
     const validateResult = await store.getters.isAuth
     if(to.matched.some(record => record.meta.requiresAuth) && validateResult) {
         next()

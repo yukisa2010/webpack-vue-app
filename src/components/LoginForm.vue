@@ -14,7 +14,7 @@
 
 <script>
 import axios from '../axios'
-import { mapMutations, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
     data: () => ({
