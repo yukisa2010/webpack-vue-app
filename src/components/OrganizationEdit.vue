@@ -6,30 +6,27 @@
     </div>
 </template>
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-    props: ["id"],
+    props: ['id'],
     data: () => ({
         params: {
-            id: "",
-            name: ""
+            id: '',
+            name: ''
         }
     }),
-    computed: mapGetters('organizations', ["organizationName"]),
+    computed: mapGetters('organizations', ['organization']),
     methods: {
-        ...mapMutations('organizations', ['update']),
+        ...mapActions('organizations', ['update']),
         updateOrganization() {
             this.update(this.params)
             this.$router.push('/organizations')
         }
     },
     mounted() {
-        const initParams = {}
-        initParams.id = this.id
-        initParams.name = this.organizationName(this.id)
-
-        this.params = initParams
+        this.params.id = this.id
+        this.params.name = this.organization(this.id).name
     }
 }
 </script>

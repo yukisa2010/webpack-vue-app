@@ -7,8 +7,8 @@
         <p>
             <label>性別：</label>
             <input type="radio" name="gender" v-model="params.gender" value=""><label for="gender">指定なし</label>
-            <input type="radio" name="gender" v-model="params.gender" value="男"><label for="gender">男性</label>
-            <input type="radio" name="gender" v-model="params.gender" value="女"><label for="gender">女性</label>
+            <input type="radio" name="gender" v-model="params.gender" value="male"><label for="gender">男性</label>
+            <input type="radio" name="gender" v-model="params.gender" value="female"><label for="gender">女性</label>
         </p>
         <p>
             <label for="birthday">生年月日：</label>
@@ -16,7 +16,7 @@
         </p>
         <p>
             <label for="organization"></label>
-            <select v-model="params.organizationId">
+            <select v-model="params.organization_id">
                 <option value="" selected>選択なし</option>
                 <option 
                     v-for="organization in organizations"
@@ -29,23 +29,24 @@
     </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
     data: () => ({
         params: {
-            name: "",
-            gender: "",
-            birthday: "",
-            organizationId: 0
+            name: '',
+            gender: '',
+            birthday: '',
+            organization_id: 0
         }
     }),
-    computed: mapState('organizations', ["organizations"]),
+    computed: mapState('organizations', ['organizations']),
     methods: {
-        ...mapMutations('customers', ["insert"]),
+        ...mapActions('customers', ['insert']),
         insertCustomer() {
             this.insert(this.params)
             this.$router.push('/')
         }
-    }
+    },
+
 }
 </script>
